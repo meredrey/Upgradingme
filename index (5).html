@@ -1,0 +1,1169 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FBF8F6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="upgradingme">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<title>upgradingme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:#FBF8F6;color:#3E3A3D;font-family:Inter,-apple-system,Segoe UI,sans-serif;font-size:15px;line-height:1.45}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+input,textarea,select{font:inherit;color:#3E3A3D}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;margin:0}
+#top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:calc(8px + env(safe-area-inset-top)) 16px 8px;background:#FBF8F6}
+.brand{font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;font-weight:700;letter-spacing:.5px}
+.topr{display:flex;align-items:center;gap:4px}
+.sdot{width:9px;height:9px;border-radius:50%;background:#CFC6C9;display:inline-block}
+.sdot.ok{background:#8FA88A}.sdot.busy{background:#C9A66B}.sdot.err{background:#C98E96}
+main{max-width:600px;margin:0 auto;padding:4px 16px calc(96px + env(safe-area-inset-bottom))}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;gap:4px;background:#FFFFFF;border-top:1px solid #F0E8E7;padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
+#nav button{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:#9A8F96;padding:10px 16px;border-radius:14px}
+#nav button.on{color:#77566F;background:#F2E9F0}
+.iconbtn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#77707A}
+.iconbtn:active{background:#F2E9F0}
+.eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:#9A8F96;font-weight:600}
+.dayhead{display:flex;align-items:center;justify-content:space-between;margin:2px 0 6px}
+.dh-mid{text-align:center}.dh-mid h2{font-size:27px;line-height:1.15}
+.linkbtn{color:#77566F;font-size:14px;font-weight:600;padding:8px 0}
+.linkbtn.center{display:block;margin:0 auto 4px}
+.daysum{display:flex;align-items:center;justify-content:center;gap:10px;color:#5E575C;margin:4px 0 12px}
+.card{background:#FFFFFF;border-radius:18px;box-shadow:0 1px 2px rgba(80,60,70,.05),0 6px 18px rgba(80,60,70,.06);padding:14px;margin-bottom:12px}
+.card.list{padding:4px 14px}
+.list{display:flex;flex-direction:column}
+.sech{display:flex;align-items:center;justify-content:space-between;margin:20px 2px 8px}
+.sech h3{font-size:21px}
+.addb{width:34px;height:34px;border-radius:50%;background:#F2E9F0;color:#77566F;display:flex;align-items:center;justify-content:center}
+.item{border-bottom:1px solid #F4EEED}.item:last-of-type{border-bottom:0}
+.row{display:flex;align-items:center;gap:12px;padding:10px 0;min-height:48px}
+.card.list>.row{border-bottom:1px solid #F4EEED}.card.list>.row:last-child{border-bottom:0}
+.row.col{flex-direction:column;align-items:stretch;gap:6px}
+.rowtop{display:flex;align-items:center;gap:10px}
+.rt{flex:1;min-width:0;cursor:pointer}
+.rt.done{color:#ABA2A7;text-decoration:line-through}
+.meta{font-size:12px;color:#9A8F96;margin-top:2px}
+.meta.pad{margin:0 0 10px}.meta.center{text-align:center;margin:4px 0 12px}
+.late{color:#A9727D;font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block;margin-right:4px;vertical-align:1px}
+.cb{flex:none;width:26px;height:26px;border-radius:9px;border:2px solid;display:flex;align-items:center;justify-content:center;background:#FFFFFF}
+.cb.s{width:20px;height:20px;border-radius:7px}
+.subs{padding:0 0 8px 38px}
+.row.sub{min-height:36px;padding:5px 0;gap:10px}
+.when{font-size:12px;color:#9A8F96;margin-left:8px;white-space:nowrap}
+.pill{font-size:12px;font-weight:600;background:#F4EEED;color:#77707A;border-radius:20px;padding:3px 10px;white-space:nowrap}
+.mini{flex:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#A99FA5}
+.bar{position:relative;width:100%;background:#F1EAEA;border-radius:20px;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:20px;transition:width .4s}
+.bar em{position:absolute;top:-3px;bottom:-3px;width:2px;background:#77707A;border-radius:2px;margin-left:-1px}
+.btnrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.btn{display:inline-flex;align-items:center;gap:6px;background:#A07A9A;color:#FFFFFF;border-radius:14px;padding:11px 18px;font-weight:600;font-size:14px}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:11px}
+.btn.ghost{background:#FFFFFF;color:#77566F;border:1.5px solid #E7DCE3}
+.btn.danger{color:#A9727D;border-color:#EBD3D6}
+.btn:active{opacity:.85}
+.empty{color:#9A8F96;font-size:13px;padding:14px 0;text-align:center}
+.qadd{display:flex;align-items:center;gap:8px;padding:10px 0 12px;border-top:1px solid #F4EEED}
+.qadd input{flex:1;min-width:0;border:0!important;background:#F7F2F4!important;border-radius:12px;padding:10px 12px}
+.qdots{display:flex;gap:7px;padding-right:2px}
+.qdot{width:16px;height:16px;border-radius:50%}
+.hchips{display:flex;flex-wrap:wrap;gap:8px}
+.hchip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #EAE1E3;border-radius:14px;padding:8px 11px;font-size:13px;background:#FFFFFF;text-align:left}
+.hchip .dot{margin:0}
+.hchip small{color:#9A8F96;font-weight:600}
+.focus{border-radius:18px;padding:14px;margin-bottom:12px}
+.ftop{display:flex;align-items:center;gap:10px;cursor:pointer}
+.ftop b{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px}
+.fwhy{font-size:13px;color:#5E575C;margin-top:8px}
+.fstep{display:flex;align-items:center;gap:10px;justify-content:space-between;background:#FFFFFF;border-radius:12px;padding:10px 10px 10px 12px;margin-top:10px;font-size:14px}
+.hero{text-align:center;padding:4px 0 10px}
+.hero h1{font-size:30px;letter-spacing:2px;text-transform:uppercase}
+.hero .sub{color:#77566F;font-size:14px;margin-top:2px}
+.seg{display:flex;background:#F1EBEE;border-radius:14px;padding:4px;margin-bottom:12px}
+.seg button{flex:1;padding:9px;border-radius:11px;font-size:14px;font-weight:600;color:#8A8288}
+.seg button.on{background:#FFFFFF;color:#77566F;box-shadow:0 2px 6px rgba(80,60,70,.08)}
+.sum{display:flex;align-items:center;gap:16px}
+.sum .big{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;display:block;line-height:1.1}
+.insight p{margin:6px 0;font-size:14px;cursor:pointer}
+.ins{display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 9px;margin-right:6px}
+.ins.ok{background:#EDF2EA;color:#5F7A5A}.ins.fo{background:#F7EAEB;color:#9E6670}
+.gcard{display:flex;align-items:center;gap:12px;background:#FFFFFF;border-radius:18px;padding:12px 14px;margin-bottom:8px;box-shadow:0 4px 14px rgba(80,60,70,.05);cursor:pointer}
+.gc-m{flex:1;min-width:0}
+.gtop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gtop b{font-family:'Cormorant Garamond',Georgia,serif;font-size:19px}
+.stp{font-size:11px;font-weight:600;border-radius:20px;padding:3px 9px;white-space:nowrap}
+.gbadge{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.grid{padding:12px 8px}
+.grow{display:grid;grid-template-columns:30px repeat(10,1fr);align-items:center;justify-items:center;padding:4px 0}
+.grow.head span{font-size:11px;font-weight:600;color:#9A8F96;text-align:center;line-height:1.1}
+.grow.head small{display:block;font-size:10px;font-weight:500}
+.grow.head .now,.gcell.now{color:#77566F;background:#F7F2F4;border-radius:10px;padding:2px 4px}
+.gcell{width:100%;display:flex;justify-content:center;padding:3px 0}
+.gname{cursor:pointer}
+.full{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.bstrip{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;margin-top:16px}
+.bem{font-size:22px;margin:4px 0 2px;letter-spacing:2px}.bem .meta{letter-spacing:0;font-size:13px}
+.ghead{border-radius:22px;padding:6px 14px 14px;margin-bottom:12px}
+.ghbar{display:flex;justify-content:space-between;margin:0 -8px}
+.gh-in{display:flex;gap:12px;align-items:center}
+.gh-in h2{font-size:28px;line-height:1.1}
+.gh-sub{font-size:14px;margin-top:8px;color:#4E484C}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips.wrap{flex-wrap:wrap;overflow:visible;align-items:center}
+.chip{border:1.5px solid #E7DCE3;border-radius:20px;padding:7px 13px;font-size:13px;white-space:nowrap;background:#FFFFFF}
+.chip.on{background:#A07A9A;border-color:#A07A9A;color:#FFFFFF}
+.mshead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:2px}
+.mshead h3{font-size:22px;line-height:1.15}
+.nval{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;white-space:nowrap;cursor:pointer}
+.nval small{font-family:Inter,sans-serif;font-size:12px;color:#9A8F96;font-weight:500}
+.det summary{font-weight:600;cursor:pointer;list-style:none}
+.det summary::-webkit-details-marker{display:none}
+.det summary:after{content:' ›';color:#9A8F96}
+.vision{font-size:14px;margin:10px 0}
+.notes{white-space:pre-wrap;font-size:13px;color:#5E575C;line-height:1.5}
+.addrow{display:flex;gap:8px;align-items:center;margin-top:8px}
+.addrow input{flex:1;min-width:0}
+input:not([type=range]):not([type=file]),textarea,select,.inp{width:100%;border:1.5px solid #EAE1E3;border-radius:12px;padding:10px 12px;background:#FFFFFF;outline:none;font-size:16px}
+input:focus,textarea:focus,select:focus{border-color:#C7B0C2}
+.inp.big{font-size:18px;padding:12px}
+.inp.flat{border:0!important;border-bottom:1px solid #F0E8E7!important;border-radius:0;padding:4px 0}
+.inp.dt{width:auto;padding:6px 10px;font-size:14px}
+textarea{resize:vertical}
+.fl{display:block;font-size:12px;font-weight:600;color:#8A8288;margin:16px 0 6px}
+.stepper{display:flex;justify-content:center;align-items:center;gap:8px;margin:8px 0}
+.stepper .bt{font-size:20px;min-width:44px;text-align:center}
+.bigval{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:6px 0}
+.bigval input{width:170px!important;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:40px!important;font-weight:700;border:0!important;border-bottom:2px solid #EAE1E3!important;border-radius:0;padding:2px!important}
+.bigval span{font-size:18px;color:#8A8288}
+input[type=range]{width:100%;height:30px;margin:6px 0}
+.tgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tgrid label{font-size:12px;color:#8A8288;font-weight:600}
+.tgrid input{margin-top:4px}
+.bgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.bdg{border:1.5px solid #F0E8E7;border-radius:16px;padding:10px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;background:#FFFFFF}
+.bdg .be{font-size:26px;filter:grayscale(1);opacity:.45}
+.bdg.got{background:#F2E9F0;border-color:#C7B0C2}.bdg.got .be{filter:none;opacity:1}
+.bdg b{font-size:13px}.bdg small{font-size:11px;color:#8A8288;line-height:1.3}.bdg .bar{width:80%}
+#sheet{position:fixed;inset:0;z-index:50}
+#sheet.hidden{display:none}
+.sheet-bg{position:absolute;inset:0;background:rgba(62,58,61,.32);opacity:0;transition:opacity .2s}
+#sheet.show .sheet-bg{opacity:1}
+.sheet-card{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow-y:auto;background:#FBF8F6;border-radius:24px 24px 0 0;padding:6px 18px calc(22px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .22s ease-out;max-width:600px;margin:0 auto}
+#sheet.show .sheet-card{transform:translateY(0)}
+.sheet-card h3{font-size:25px;margin:6px 0 12px}
+.sheet-card h3.sm{font-size:20px;margin-top:22px}
+.grab{width:42px;height:5px;border-radius:5px;background:#E2D7DD;margin:6px auto 8px}
+#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#3E3A3D;color:#FFFFFF;padding:10px 16px;border-radius:14px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:60;max-width:88vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.big{background:#A07A9A;font-weight:600;font-size:15px;padding:14px 20px}
+.hint{font-size:12px;color:#9A8F96;margin-top:2px;line-height:1.35}
+.sheet-card .hint{margin:4px 0 8px}
+.sech{align-items:flex-end}
+.yearbar{font-size:12px;font-weight:600;letter-spacing:.3px;margin:2px 2px 0}
+.pickrow{display:flex;align-items:center;gap:8px;padding:0 0 10px 38px;flex-wrap:wrap}
+.picked{font-size:13px;font-weight:600;border-radius:10px;padding:5px 10px}
+.linkbtn.sm{font-size:12px;padding:2px 0}
+.row.pick{border-radius:12px;padding:8px 10px;cursor:pointer}
+.radio{width:18px;height:18px;border-radius:50%;border:2px solid;flex:none}
+.licon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none}
+.liin{flex:1;min-width:0}
+.inp.flat.note{font-size:13px!important;color:#8A8288}
+.yrange{display:flex;align-items:center;gap:8px}.yrange span{color:#8A8288;font-size:13px}
+.btnrow.sticky{position:sticky;bottom:calc(-22px - env(safe-area-inset-bottom));background:#FBF8F6;padding:12px 0 10px;margin-bottom:-10px;z-index:2}
+.donec{padding:10px 0 12px}
+.subtog{font-size:12px;color:#77566F;font-weight:600;padding:2px 0}
+.star{flex:none;min-width:30px;height:30px;border-radius:50%;font-size:18px;color:#C9BFC4;line-height:1}
+.star.on{color:#C9A66B}
+.card.vac{background:#E8F0F5;box-shadow:none;text-align:center}.vtitle{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:700}.card.vac p{font-size:14px;color:#4E484C}
+.card.setup{background:#F2E9F0;box-shadow:none}.card.setup b{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px}.card.setup p{font-size:14px;margin:6px 0 12px}
+.empty.sm{padding:4px 0;font-size:13px}
+.wallet .wtop{display:flex;justify-content:space-between;align-items:center}.wallet .big{font-family:'Cormorant Garamond',Georgia,serif;font-size:32px;display:block;line-height:1.1}.wicon{font-size:34px}
+.streak{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:12px;color:#77707A}
+.sdots{display:inline-flex;gap:4px}.sdots i{width:14px;height:14px;border-radius:50%;border:1.5px solid #DCD2D7;display:inline-block}
+.stk{font-size:22px;flex:none}
+.btn.dis{opacity:.45}
+.sgh{display:flex;align-items:center;gap:8px;margin-bottom:6px}.sgh b{font-family:'Cormorant Garamond',Georgia,serif;font-size:18px}
+.srow{display:flex;flex-direction:column;gap:6px;padding:10px 0;border-top:1px solid #F4EEED}
+.seg3{display:flex;background:#F4EFF1;border-radius:11px;padding:3px}.seg3 button{flex:1;padding:7px 4px;border-radius:9px;font-size:13px;font-weight:600;color:#8A8288}.seg3 button.on{background:#FFFFFF;color:#77566F;box-shadow:0 1px 4px rgba(80,60,70,.1)}
+.cdot{width:30px;height:30px;border-radius:50%}
+.idot{width:40px;height:40px;border-radius:12px;background:#F4EFF1;display:flex;align-items:center;justify-content:center}
+.btnrow.center{justify-content:center}
+.item.paused .rt{color:#9A8F96}
+.pz{width:26px;display:flex;justify-content:center;flex:none}
+</style>
+</head>
+<body>
+<header id="top"><div class="brand">upgradingme</div><div class="topr"><span id="syncDot" class="sdot"></span><button class="iconbtn" data-act="settings" aria-label="Ustawienia"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#77707A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div></header>
+<main id="view"></main>
+<nav id="nav">
+<button data-act="nav" data-v="today"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Dziś</button>
+<button data-act="nav" data-v="goals"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l6-9 4 5 3-4 5 8z"/></svg>Cele</button>
+</nav>
+<div id="sheet" class="hidden"><div class="sheet-bg"></div><div class="sheet-card" id="sheetCard"></div></div>
+<div id="toast"></div>
+<script>
+// ================= DANE Z PLANSZ =================
+const YEARS=[1,2,3,5,7,10];
+const G={
+ g1:{n:1,name:'Rodzina',sub:'Bliska relacja z córkami',c:'#C98E96',l:'#F7EAEB',d:'#9E6670',icon:'heart',
+  statement:'Wychowałam córki, które są gotowe na świat i wiedzą, że zawsze mogą do mnie przyjść.',
+  vision:'Mam z obiema córkami bliską, bezpieczną i pełną zaufania relację. Jestem dla nich dostępna emocjonalnie, potrafimy rozmawiać o wszystkim, spędzamy razem wartościowy czas, a ja wspieram je w byciu sobą, stawianiu granic i rozwijaniu własnych marzeń.',
+  quote:'Jestem mamą, do której zawsze można przyjść.',
+  areas:[['Bezpieczeństwo emocjonalne','Córki wiedzą, że mogą ze mną rozmawiać o wszystkim: o marzeniach, lękach, błędach i trudnościach, bez obawy, że stracą moją miłość.'],['Obecność','Regularnie spędzamy razem czas, który daje nam radość i buduje wspomnienia. Jestem obecna, ciekawa ich świata i mam dla nich czas.'],['Moje zachowanie','Wyrażam granice z miłością i szacunkiem, nie używam pasywnej agresji i pracuję nad tym, by nie przenosić na córki własnych lęków.'],['Naprawianie relacji','Kiedy reaguję niewłaściwie, potrafię się do tego przyznać, przeprosić i wrócić do rozmowy.'],['Ich samodzielność','Wspieram je w budowaniu poczucia własnej wartości, empatii, umiejętności stawiania granic i podejmowania własnych decyzji.']],
+  yearTitles:{1:'Fundamenty w codzienności',2:'Świadoma praca nad sobą',3:'Emocjonalne bezpieczeństwo',5:'Bliskość dostosowana do ich rozwoju',7:'Zaufanie i samodzielność',10:'Cel końcowy'},
+  yearQuotes:{1:'Obecność dzisiaj tworzy naszą przyszłą więź.',2:'Im lepiej rozumiem siebie, tym spokojniej jestem obok nich.',3:'Tworzę przestrzeń, w której mogą być sobą.',5:'Nasza więź rośnie razem z ich niezależnością.',7:'Daję im skrzydła, ale zawsze jestem blisko.',10:'Jestem dumna z więzi, którą zbudowałyśmy.'},
+  visionList:[],principles:[]},
+ g2:{n:2,name:'Ja i moje zasoby',sub:'Ciało, finanse, spokój',c:'#8FA88A',l:'#EDF2EA',d:'#5F7A5A',icon:'lotus',
+  statement:'Mam zasoby, by świadomie wybierać swoje życie.',
+  vision:'Jestem silna, sprawna i pełna energii. Mam stabilność finansową i przestrzeń mentalną. Działam intencjonalnie, zamiast żyć na autopilocie lub sabotować siebie.',
+  quote:'Czuję się dobrze, robię to, co ma dla mnie znaczenie.',
+  areas:[['Ciało i energia','Jestem silna, sprawna i pełna energii. Mam zdrową kompozycję ciała, buduję i chronię mięśnie oraz dbam o kondycję na kolejne dekady.'],['Finanse','Mam stabilność finansową i swobodę podejmowania decyzji. Wydaję pieniądze świadomie, a nie pod wpływem chwili. Pieniądze wspierają moje życie i dają mi niezależność.'],['Regulacja emocji i wolność od kompulsji','Potrafię odczuwać napięcie, stres i trudne emocje bez automatycznego sięgania po alkohol, zakupy, jedzenie lub nadmierną produktywność. Umiem zatrzymać się, wybrać reakcję i wrócić do swoich priorytetów.']],
+  yearTitles:{1:'Punkt wyjścia',2:'Stabilność i konsekwencja',3:'Oszczędzanie i inwestycje',5:'Większa swoboda wyboru',7:'Niezależność finansowa',10:'Bezpieczeństwo i opcje na przyszłość'},
+  yearQuotes:{1:'Silne ciało to wolność.',2:'Finansowa swoboda daje mi więcej życia.',3:'Mam zasoby, by żyć życiem, które ma dla mnie znaczenie.',5:'Silne ciało to wolność.',7:'Finansowa swoboda daje mi więcej życia.',10:'Mam zasoby, by żyć życiem, które ma dla mnie znaczenie.'},
+  visionList:[],
+  principles:['Pauza: zatrzymuję się, zanim podejmę działanie.','Nazywam: „Czuję napięcie. Mam impuls…”','Pozostaję: 2–10 minut obserwuję odczucia.','Wybieram: decyduję świadomie, zamiast automatycznie.'],
+  rules:{
+   'Alkohol':['Nigdy więcej niż 3 drinki w jednym dniu.','Nigdy więcej niż 3 dni z alkoholem w tygodniu.','Nie używam alkoholu jako sposobu na zmniejszenie napięcia.','Mój cel: maksymalnie 1 raz w tygodniu; w dzień roboczy maks. 1 kieliszek; w weekend maks. 2 porcje.','Wyjątki na wakacjach są ok, ale nie przekraczam zasad „nigdy”.'],
+   'Zakupy':['Zakup nieplanowany = minimum 24 godziny pauzy.','Zakup droższy lub silnie impulsywny = 72 godziny.','W czasie pauzy nie dodaję kolejnych rzeczy do koszyka.','Pytam: Czy tego nadal chcę? Czy mieści się w budżecie? Czy kupiłabym to, będąc spokojna?'],
+   'Jedzenie':['Zatrzymuję się na 2–5 minut, zanim zjem.','Nazywam to, co czuję (stres, złość, nuda, zmęczenie, samotność).','Sprawdzam, czy jestem głodna fizycznie czy szukam ulgi emocjonalnej.','Jedzenie jest częścią życia: nie zakazuję, ale dbam o świadomy wybór i brak automatycznego jedzenia bez kontroli.']
+  }},
+ g3:{n:3,name:'Twórczość i rozwój',sub:'Pomysły w rzeczywistość',c:'#C9A66B',l:'#F8F0E1',d:'#8E7240',icon:'bulb',
+  statement:'Tworzę, eksperymentuję i zamieniam pomysły w rzeczywistość.',
+  vision:'Daję sobie przestrzeń na kreatywność, naukę i realizację projektów, które dają mi radość, rozwijają mnie i mogą przynosić wartość innym. Muzyka jest stałą częścią mojego życia.',
+  quote:'Małe kroki tworzą wielkie rzeczy.',
+  areas:[],
+  yearTitles:{1:'Rytm twórczy',2:'Pierwszy projekt',3:'Kolejny projekt',5:'Kilka ukończonych projektów',7:'Pomysły w rezultaty',10:'Tworzę i eksperymentuję'},
+  yearQuotes:{1:'Małe kroki tworzą wielkie rzeczy.',2:'Eksperymenty też się liczą.',3:'Robię postęp, nie muszę być od razu idealnie.',5:'Wybieram projekty, które mnie naprawdę ciekawią.',7:'Cieszę się procesem i uczę się po drodze.',10:'Tworzę, bo to mnie rozwija i daje mi radość.'},
+  visionList:['Mam na koncie kilka ukończonych projektów, produktów lub publikacji.','Muzyka jest ważną częścią mojego życia.','Regularnie uczę się nowych rzeczy.','Cieszę się procesem tworzenia, niezależnie od skali sukcesu.','Tworzę, bo to mnie rozwija i daje mi radość.'],
+  principles:['Robię postęp, nie muszę być od razu idealnie.','Eksperymenty też się liczą.','Wybieram projekty, które mnie naprawdę ciekawią.','Pozwalam projektom dojrzewać, nie wszystko musi być gotowe w rok.','Cieszę się procesem i uczę się po drodze.'],
+  counts:['Działający prototyp / wersja beta','Opublikowana strona lub aplikacja','Ukończony manuskrypt lub publikacja','Pierwsi klienci dla usługi','Ukończony kurs lub nagrania','Własny utwór (opublikowany lub nagrany)']},
+ g4:{n:4,name:'Przygoda',sub:'Ciekawość i odwaga',c:'#7E9FB5',l:'#E8F0F5',d:'#557489',icon:'mountain',
+  statement:'Żyję z ciekawością i odwagą.',
+  vision:'Podróżuję, odkrywam, uczę się i próbuję nowych rzeczy. Poszerzam swoje horyzonty małymi krokami, nie czekając na idealny moment. Mam doświadczenia, które są tylko moje, i tworzę wspomnienia z ludźmi, których kocham.',
+  quote:'Świat jest pełen rzeczy, które chcę poznać i nie muszę się spieszyć, żeby ich doświadczać.',
+  areas:[['Podróże i poznawanie świata','1–2 większe podróże rocznie; odkrywanie nowych krajów, kultur i smaków; również krótkie wyjazdy w Polsce i blisko domu; podróże z rodziną i solo.'],['Nauka nowych umiejętności','Nowe przepisy i kuchnie; kursy (np. języki, muzyka, fotografia, ceramika); zrozumienie, jak coś działa; ciekawość i otwartość na nową wiedzę.'],['Lekkie przekraczanie granic','Robienie rzeczy, które mnie onieśmielają; samodzielne wyjścia; inicjowanie kontaktów; mówienie „tak” nowym możliwościom.'],['Kultura, muzyka i sztuka','Koncerty, teatr, wystawy; festiwale i lokalne wydarzenia; odkrywanie nowych artystów i gatunków; regularny kontakt ze sztuką.'],['Czas tylko dla siebie','Samodzielne podróże i wyjazdy; weekendowe wypady; czas na swoje pasje i refleksję; cieszenie się własnym towarzystwem.'],['Rodzina i wspólne wspomnienia','Podróże i przygody z córkami; odkrywanie świata razem; pokazywanie dzieciom nowych miejsc i kultur; tworzenie rodzinnych rytuałów i tradycji.'],['Nowi ludzie i nowe środowiska','Poznawanie inspirujących ludzi; udział w nowych społecznościach (online i offline); utrzymywanie kontaktu z dawnymi znajomymi; otwartość na różnorodne perspektywy.']],
+  yearTitles:{1:'Start przygody',2:'Odwaga i samodzielność',3:'Swobodniej i częściej',5:'Nowe hobby i ludzie',7:'Śmiałe wyzwania',10:'Życie pełne ciekawości'},
+  yearQuotes:{1:'Małe kroki też się liczą.',2:'Nie muszę czekać na idealny moment.',3:'Ciekawość zamiast oceniania.',5:'Tworzę wspomnienia, nie tylko plany.',7:'Łączę przygodę z odpoczynkiem.',10:'Więcej przygód, więcej mnie.'},
+  visionList:['Poznaję świat i wracam z niego bogatsza.','Regularnie uczę się nowych rzeczy.','Robię rzeczy, które trochę mnie onieśmielają.','Kultura, muzyka i sztuka są częścią mojego życia.','Spędzam wartościowy czas sama ze sobą.','Tworzę niezapomniane wspomnienia z rodziną i bliskimi.','Poznaję nowych ludzi i inspirujące środowiska.','Cieszę się codzienną ciekawością życia.'],
+  principles:['Ciekawość zamiast oceniania.','Małe kroki też się liczą.','Nie muszę czekać na idealny moment.','Wybieram to, co naprawdę mnie interesuje.','Łączę przygodę z odpoczynkiem.','Tworzę wspomnienia, nie tylko plany.','Powracam do rzeczy, które dają mi radość.'],
+  expTargets:{1:12,2:24,3:36,5:60,7:84,10:120}},
+ g5:{n:5,name:'Relacje',sub:'Ludzie, z którymi dobrze mi się żyje',c:'#A07A9A',l:'#F2E9F0',d:'#77566F',icon:'people',
+  statement:'Otaczam się ludźmi, z którymi dobrze mi się żyje.',
+  vision:'Mam bliskie, ciepłe i wzajemne relacje. Potrafię mówić o swoich potrzebach, stawiać granice i rozmawiać o trudnych sprawach bez uciekania ani atakowania. Dbam o innych, ale nie porzucam siebie. Potrafię naprawiać relacje, a także rozpoznawać, kiedy warto odpuścić.',
+  quote:'Ja jestem OK i inni są OK. Moje potrzeby są ważne, tak samo jak potrzeby innych, z lekkim pierwszeństwem dla siebie.',
+  areas:[['Małżeństwo i bliskość','Codziennie 15 minut rozmowy (wyłączamy telefony). Lista tematów od łatwych do trudniejszych. Najpierw budujemy zaufanie, potem pogłębiamy intymność emocjonalną. Namiętność i zaangażowanie są na dobrym poziomie.'],['Przyjaźnie i własny krąg ludzi','Raz w tygodniu kontakt z Marysią, Kasią i Natalią. Raz w tygodniu kontakt z Justyną lub braćmi. Raz na 2 miesiące kontakt z kimś innym. Inicjuję spotkania i cieszę się czasem z ważnymi dla mnie ludźmi.'],['Granice i asertywność','Mówię o swoich potrzebach. Potrafię powiedzieć „nie” bez poczucia winy. Nie zgadzam się bez agresji ani nadmiernego tłumaczenia się. Zwracam uwagę, jak różni ludzie na mnie wpływają.'],['Konflikty i naprawianie relacji','Traktuję konflikty jako część relacji, a nie zagrożenie. Potrafię spokojnie wracać do trudnych tematów. Słucham i staram się rozumieć drugą stronę. Umiem przyznać się do błędu, przeprosić i znaleźć rozwiązanie.'],['Wzajemność i dobre wybory','Inwestuję w relacje, które są wzajemne. Świadomie wybieram, komu daję swój czas. Regularnie sprawdzam, jak czuję się przy danych osobach. Ograniczam relacje, które mnie wyczerpują lub mi nie służą.']],
+  yearTitles:{1:'Buduję fundamenty',2:'Więcej bezpieczeństwa',3:'Głębsze zrozumienie',5:'Stabilność i bliskość',7:'Większa swoboda',10:'Ludzie, którzy dają mi radość'},
+  yearQuotes:{1:'Buduję fundamenty.',2:'Więcej bezpieczeństwa.',3:'Głębsze zrozumienie.',5:'Stabilność i bliskość.',7:'Większa swoboda.',10:'Ludzie, którzy dają mi radość.'},
+  visionList:['Mam bliską i stabilną relację z mężem, opartą na zaufaniu, szczerości i czułości.','Mam kilka prawdziwych przyjaźni, które dają mi wsparcie, radość i inspirację.','Umiem stawiać granice i mówić o swoich potrzebach.','Potrafię rozwiązywać konflikty i naprawiać relacje.','Świadomie wybieram ludzi, z którymi chcę spędzać czas i które relacje mi służą.','Dbam o innych, ale nie tracę siebie.'],
+  principles:['Stawiam siebie i innych na równi (z lekką przewagą na siebie).','Mówię o swoich potrzebach, zamiast oczekiwać, że inni je odgadną.','Wybieram jakość, nie ilość.','Konflikty są częścią relacji i można na nich budować.','Otaczam się ludźmi, przy których czuję się dobrze.','Ja jestem OK i inni są OK.'],
+  reflQ:['Jak czuję się w swoich ważnych relacjach?','Czy mogę być sobą?','Czy kontakt jest wzajemny?','Czy czuję się dobrze, neutralnie, czy wyczerpana?','Czy podtrzymuję tę relację, bo naprawdę chcę?']}
+};
+const GIDS=['g1','g2','g3','g4','g5'];
+const G0=Object.keys(G);
+
+const MS={
+ g1:{1:['Czas 17:00–19:00 bez telefonu, z pełną uwagą na córki (pon–pt).','Każdy weekend min. jedna wspólna aktywność rodzinna.','Co tydzień indywidualny czas z Emmą i z Anią (min. 20–30 minut).','Zaczynam tworzyć listę sytuacji i wzorców do pracy na terapii.','Po konfliktach wracam do rozmowy i naprawiam relację.'],
+  2:['Wracam na terapię i regularnie w niej uczestniczę.','Mam jasno określone cele terapeutyczne.','Utrzymuję codzienny czas 17:00–19:00 bez telefonu.','Kontynuuję weekendowe aktywności i indywidualny czas z córkami.','Pracuję nad regulacją emocji, granicami i ograniczeniem pasywnej agresji.'],
+  3:['Regularnie rozmawiamy o emocjach, potrzebach i trudnościach.','Ćwiczę słuchanie bez oceniania.','Daję im przestrzeń na samodzielność i własne rozwiązania.','Utrzymuję nasze rytuały z pierwszych lat.','Uczę je, że błędy są częścią życia i można o nich rozmawiać.'],
+  5:['Dostosowuję sposób spędzania czasu do ich zainteresowań.','Szanuję ich prywatność i autonomię.','Nasza relacja nie opiera się tylko na logistyce i obowiązkach.','Regularnie tworzymy wspólne doświadczenia i wspomnienia.','Potrafię przyjąć ich niezgodę i odmienne zdanie, bez poczucia odrzucenia.'],
+  7:['Rozmawiamy o trudnych decyzjach, relacjach, granicach i odpowiedzialności.','Wspieram ich samodzielność bez przejmowania kontroli.','Nadal aktywnie buduję wspólne wspomnienia.','Akceptuję, że mogą mieć inne wartości i pomysły na życie.','Nasza bliskość pozostaje możliwa mimo różnic i zmian.'],
+  10:['Mam z obiema córkami bliską, bezpieczną i pełną zaufania relację.','Potrafię być obecna, rozmawiać o trudnych sprawach, stawiać granice i naprawiać konflikty.','Córki mają przestrzeń, by być sobą, rozwijać samodzielność i wracać do mnie po wsparcie.','Wspólny czas nadal ma dla nas wartość, choć każda z nas ma własne życie.']},
+ g2:{1:['Robię pomiar bazowy (waga, tkanka tłuszczowa, masa mięśniowa).','Waga 85 kg: redukcja masy i ochrona mięśni.','Poduszka finansowa 33 000 zł.','Kontroluję wydatki; mój miesięczny budżet 2 000 zł.','Wakacje w rocznym budżecie 24 000 zł.','Wprowadzam swoje zasady: alkohol, zakupy, jedzenie.'],
+  2:['Tkanka tłuszczowa 30%: redukcja tłuszczu i rozwój mięśni.','Poduszka finansowa 50 000 zł.','Mój miesięczny budżet 2 250 zł.','Spłacam zadłużenie (samochód).','Stabilność i konsekwencja w nawykach.'],
+  3:['Tkanka tłuszczowa 27%: lepsza kompozycja ciała.','Oszczędności 85 470 zł; oszczędzam i inwestuję.','Mój miesięczny budżet 2 500 zł.','Wakacje w rocznym budżecie 30 000 zł.'],
+  5:['Tkanka tłuszczowa 25%: silna, sprawna sylwetka.','Oszczędności 297 543 zł: większa swoboda wyboru.','Mój miesięczny budżet 3 000 zł.','Wakacje w rocznym budżecie 40 000 zł.'],
+  7:['Tkanka tłuszczowa poniżej 25%, masa mięśniowa 30%.','Oszczędności 518 577 zł: niezależność finansowa.','Wakacje w rocznym budżecie 50 000 zł.'],
+  10:['Zdrowy poziom tkanki tłuszczowej; masa mięśniowa utrzymana lub więcej.','Oszczędności 844 459 zł: bezpieczeństwo i opcje na przyszłość.','Sprawność na kolejne dekady.']},
+ g3:{1:['Ustalam rytm twórczy (2 godz. tygodniowo).','Wybieram główny projekt i zaczynam go realizować.','Widoczny postęp muzyczny (pianino).','Dodaję nowy pomysł do banku pomysłów.'],
+  2:['Wypuszczam pierwszy projekt (np. prototyp, stronę, usługę lub publikację).','Zbieram opinie i wnioski.','Kontynuuję rozwój muzyczny.','Dodaję nowy pomysł.'],
+  3:['Wypuszczam kolejny projekt.','Rozwijam umiejętności i testuję nowe pomysły.','Nagrywam pierwsze utwory lub kończę kurs.','Dodaję nowy pomysł.'],
+  5:['Mam kilka ukończonych projektów.','Lepiej wiem, które pomysły dają mi najwięcej satysfakcji i mają potencjał rynkowy.','Muzyka jest regularną częścią mojego życia (nagrania, występy, kursy).'],
+  7:['Potrafię regularnie zamieniać pomysły w realne rezultaty.','Mam na koncie zarówno sukcesy, jak i projekty, które się nie powiodły (i wyciągam z nich wnioski).','Muzyka daje mi radość i jest ważną częścią mojego życia.'],
+  10:['Mam na koncie kilka ukończonych produktów, projektów lub publikacji.','Regularnie tworzę i eksperymentuję.','Muzyka: własne nagrania, być może publikacja, koncerty lub współpraca.','Dodaję nowe pomysły, które chcę realizować po 50.']},
+ g4:{1:['Tworzę listę 30 rzeczy, których chcę spróbować.','Realizuję minimum 12 nowych doświadczeń (ok. 1 miesięcznie).','Planuję 1 większą podróż i kilka mniejszych.','Zaczynam nowe hobby lub kurs.'],
+  2:['Utrzymuję minimum 12 nowych doświadczeń rocznie.','Podejmuję jedno doświadczenie, które trochę mnie onieśmiela.','Organizuję przynajmniej jedną samodzielną wyprawę lub wyjście.','Rozwijam nową umiejętność.'],
+  3:['Mam za sobą ok. 36 nowych doświadczeń.','Swobodniej podejmuję inicjatywę.','Regularnie uczestniczę w kulturze (koncerty, wystawy, teatr).','Miejsca bliskie i dalekie są częścią mojego życia.'],
+  5:['Mam za sobą ok. 60 nowych doświadczeń.','Kilka wypróbowanych hobby i ukończonych kursów.','Nowe znajomości i inspirujące środowiska.','Niezapomniane wspomnienia z rodziną i samodzielnych podróży.'],
+  7:['Mam za sobą ok. 84 nowych doświadczeń.','Śmielej podejmuję wyzwania i próbuję nowych rzeczy.','Regularnie podróżuję, uczę się i uczestniczę w wydarzeniach kulturalnych.','Lepiej rozumiem siebie i wiem, co daje mi największą radość.'],
+  10:['Mam za sobą ok. 120 nowych doświadczeń.','Podróże, kultura, nauka i nowi ludzie są naturalną częścią mojego życia.','Nadal regularnie próbuję nowych rzeczy.','Tworzę życie pełne ciekawości, które naprawdę mnie cieszy.']},
+ g5:{1:['Wprowadzam 15-minutowe rozmowy z mężem.','Tworzę listę tematów od łatwych do trudniejszych.','Rozpoczynam cotygodniową refleksję z AI.','Wdrażam system kontaktów z ważnymi osobami.','Zaczynam rozpoznawać własne wzorce w relacjach.'],
+  2:['Rozwijam zaufanie poprzez szczerość i spójność.','Lepiej radzę sobie z trudnymi rozmowami.','Regularnie pielęgnuję przyjaźnie.','Jeśli potrzebne, rozpoczynam terapię indywidualną lub wspólną.'],
+  3:['Umiem wyrażać niezadowolenie bez ataku i wycofania.','Świadomie inwestuję w ludzi, przy których mogę być sobą.','Naprawiam konflikty i wracam do rozmowy.','Coraz więcej otwartości i bliskości z mężem.'],
+  5:['Mamy stabilne rytuały bliskości w małżeństwie.','Mam kilka bliskich, wartościowych relacji.','Lepiej rozpoznaję swoje schematy i wybieram ludzi, którzy mi służą.','Czuję się swobodniej w stawianiu granic.'],
+  7:['Utrzymuję relacje oparte na wzajemności.','Potrafię przyjmować odmowę i nie brać tego osobiście.','Swobodnie rozmawiam o trudnych tematach.','Czuję się dobrze w swoim kręgu ludzi.'],
+  10:['Żyję w otoczeniu bliskich, wartościowych ludzi.','Mam z mężem relację, w której jest zaufanie, czułość i otwartość.','Umiem budować, naprawiać i kończyć relacje w zdrowy sposób.','Jestem spokojna o to, z kim spędzam swój czas.']}
+};
+
+// nawyki startowe
+const SEED_HABITS=[
+ {id:'h-g1-phone',goalId:'g1',name:'17:00–19:00 bez telefonu, uwaga na córki',period:'day',target:1,unit:'x',days:[0,1,2,3,4]},
+ {id:'h-g1-family',goalId:'g1',name:'Wspólna aktywność rodzinna',period:'week',target:1,unit:'x'},
+ {id:'h-g1-emma',goalId:'g1',name:'Czas 1:1 z Emmą (20–30 min)',period:'week',target:1,unit:'x'},
+ {id:'h-g1-ania',goalId:'g1',name:'Czas 1:1 z Anią (20–30 min)',period:'week',target:1,unit:'x'},
+ {id:'h-g2-train',goalId:'g2',name:'Trening siłowy',period:'week',target:4,unit:'x'},
+ {id:'h-g2-move',goalId:'g2',name:'Codzienny ruch',period:'day',target:1,unit:'x',days:[]},
+ {id:'h-g2-med',goalId:'g2',name:'Medytacja 5–10 min',period:'day',target:1,unit:'x',days:[]},
+ {id:'h-g2-budget',goalId:'g2',name:'Przegląd wydatków',period:'week',target:1,unit:'x'},
+ {id:'h-g3-create',goalId:'g3',name:'Praca twórcza',period:'week',target:120,unit:'min'},
+ {id:'h-g3-music',goalId:'g3',name:'Muzyka (pianino, gitara, śpiew)',period:'week',target:2,unit:'x'},
+ {id:'h-g5-talk',goalId:'g5',name:'15 min rozmowy z mężem (bez telefonów)',period:'day',target:1,unit:'x',days:[]},
+ {id:'h-g5-refl',goalId:'g5',name:'Refleksja z AI o swoich schematach (30 min)',period:'week',target:1,unit:'x'}
+];
+const SEED_IDEAS=[
+ ['Aplikacja do finansów','Prosta i intuicyjna aplikacja, która pomaga ogarniać budżet, wydatki, oszczędności i cele finansowe.'],
+ ['Strona do formułowania celów','Strona internetowa, która prowadzi krok po kroku od wizji do konkretnych celów i działań. W przyszłości może stać się aplikacją.'],
+ ['Książka','Książka na temat, który jest mi bliski, np. o życiu, celach, nawykach, zmianie albo łączeniu życia zawodowego i prywatnego.'],
+ ['Aplikacja do ogarniania życia','Aplikacja wspierająca porządkowanie domu i życia (decluttering, organizacja zadań, uproszczenie obowiązków). Najpierw eksploruję problem i użytkowników.'],
+ ['Usługi online wspierane przez AI','Konkretne rozwiązania dla klientów z wykorzystaniem AI, np. materiały, dokumenty, procesy lub produkty cyfrowe. Najpierw wybieram grupę klientów i testuję ofertę.'],
+ ['Rozwój muzyczny i nagrania','Ukończyć kurs pianina, poznać podstawy gry na gitarze i śpiewu, nagrać kilka piosenek i nauczyć się je obrabiać.'],
+ ['Własna piosenka','Napisać tekst i muzykę, nagrać utwór i przygotować jego wersję, której z przyjemnością posłucham i którą będę mogła się podzielić z innymi.']
+];
+const SEED_CONTACTS=[['Marysia',7],['Kasia',7],['Natalia',7],['Justyna lub bracia',7],['Ktoś inny (online lub osobiście)',60]];
+const SEED_LISTS=[
+ {id:'list-g1-wzorce',goalId:'g1',title:'Sytuacje i wzorce do pracy na terapii',levels:false,items:[]},
+ {id:'list-g4-try30',goalId:'g4',title:'30 rzeczy, których chcę spróbować',levels:false,target:30,items:['Nowy przepis i kuchnia','Muzeum, wystawa, teatr','Weekend w nieznanym miejscu','Kurs lub warsztaty (np. ceramika, taniec)','Telefon do dawnej znajomej','Koncert nowego artysty','Nowe miasto w Polsce','Nowe hobby']},
+ {id:'list-g5-tematy',goalId:'g5',title:'Tematy do rozmów z mężem (od łatwych do trudniejszych)',levels:true,items:[['Codzienne sprawy i logistyka',1],['Plany na najbliższe tygodnie',1],['Rzeczy, które sprawiły nam radość',1],['Nasze marzenia i cele',2],['Trudne sytuacje z ostatniego czasu',2],['Nasze potrzeby w relacji',2],['Co możemy zrobić inaczej',3],['Obawy i wrażliwe tematy',3],['Wizja naszej przyszłości',3]]}
+];
+// cele liczbowe na lata
+const TARGETS={
+ weight:{label:'Waga',unit:'kg',min:50,max:110,step:0.1,start:91,dir:-1,t:{1:85}},
+ fat:{label:'Tkanka tłuszczowa',unit:'%',min:10,max:45,step:0.1,dir:-1,t:{2:30,3:27,5:25,7:24.9}},
+ muscle:{label:'Masa mięśniowa',unit:'%',min:15,max:50,step:0.1,dir:1,t:{7:30,10:30}},
+ savings:{label:'Poduszka finansowa',unit:'zł',min:0,max:900000,step:500,dir:1,t:{1:33000,2:50000,3:85470,5:297543,7:518577,10:844459}}
+};
+const BUDGET={1:2000,2:2250,3:2500,5:3000,7:3000,10:3000};
+const VACATION={1:24000,2:24000,3:30000,5:40000,7:50000,10:50000};
+
+// ===== LATA 4, 6, 8, 9 (szkic pomostowy między planszami) =====
+const ALLY=[1,2,3,4,5,6,7,8,9,10];
+const EXTRA={
+ g1:{t:{4:'Codzienna bliskość',6:'Ich świat, nasza więź',8:'Rozmowy o dorosłości',9:'Bliskość mimo różnic'},
+  4:['Rozmowy o emocjach, potrzebach i trudnościach są naszą codziennością.','Mam z każdą córką własny rytuał tylko dla nas dwóch.','Pozwalam im samodzielnie rozwiązywać problemy, zanim zaproponuję pomoc.','Po trudnych sytuacjach szybko wracam do rozmowy i naprawiam relację.'],
+  6:['Interesuję się ich światem: pasjami, muzyką, przyjaciółmi.','Szanuję ich prywatność i granice.','Raz w roku organizujemy wspólną przygodę lub wyjazd.','Spokojnie przyjmuję ich odmienne zdanie.'],
+  8:['Rozmawiamy otwarcie o decyzjach, relacjach i odpowiedzialności.','Wspieram, ale nie przejmuję kontroli nad ich wyborami.','Utrzymujemy wspólne rytuały, nawet gdy mają coraz więcej własnego życia.'],
+  9:['Córki same przychodzą do mnie z ważnymi sprawami.','Akceptuję ich wartości i pomysły na życie, nawet gdy różnią się od moich.','Mamy wspólne plany i wspomnienia, które obie cenią.']},
+ g2:{t:{4:'Rozpęd',6:'Siła i stabilność',8:'Niezależność w praktyce',9:'Przygotowanie na kolejną dekadę'},
+  4:['Tkanka tłuszczowa ok. 26%.','Oszczędności ok. 191 500 zł.','Mój miesięczny budżet 2 750 zł.','Moje zasoby (alkohol, zakupy, jedzenie) działają bez wysiłku.'],
+  6:['Utrzymuję tkankę tłuszczową ok. 25% i rozwijam siłę.','Oszczędności ok. 408 000 zł.','Trening siłowy 4–5× w tygodniu to stała część mojego życia.'],
+  8:['Tkanka tłuszczowa poniżej 25%, masa mięśniowa ok. 30%.','Oszczędności ok. 627 000 zł.','Regularne badania i dbanie o zdrowie.'],
+  9:['Utrzymuję zdrową kompozycję ciała i sprawność.','Oszczędności ok. 736 000 zł.','Mam przemyślany plan finansowy na kolejną dekadę.']},
+ g3:{t:{4:'Kolejne projekty',6:'Pogłębianie',8:'Rezultaty',9:'Domykanie przed 50'},
+  4:['Realizuję kolejny projekt z banku pomysłów.','Testuję, które pomysły mają potencjał rynkowy.','Regularnie gram i nagrywam.','Dodaję nowy pomysł.'],
+  6:['Rozwijam projekt, który dał mi najwięcej satysfakcji.','Muzyka: nagrania lub występ.','Dodaję nowy pomysł.'],
+  8:['Wypuszczam kolejny projekt i zbieram opinie.','Muzyka: własny utwór nagrany lub opublikowany.','Dodaję nowy pomysł.'],
+  9:['Domykam projekty, które chcę mieć ukończone przed 50.','Wybieram pomysły do realizacji po 50.','Dodaję nowy pomysł.']},
+ g4:{t:{4:'Więcej odwagi',6:'Czas dla siebie',8:'Dalekie horyzonty',9:'Przygoda na 50'},
+  4:['Mam za sobą ok. 48 nowych doświadczeń.','Odbywam większą podróż i kilka mniejszych.','Wypróbowuję nowe hobby lub kurs.','Podejmuję jedno doświadczenie, które trochę mnie onieśmiela.'],
+  6:['Mam za sobą ok. 72 nowych doświadczeń.','Samodzielny wyjazd tylko dla siebie.','Regularny kontakt z kulturą i sztuką.'],
+  8:['Mam za sobą ok. 96 nowych doświadczeń.','Podróż w nowe, dalekie miejsce.','Nowa umiejętność lub kurs.'],
+  9:['Mam za sobą ok. 108 nowych doświadczeń.','Planuję wyjątkową przygodę na 50. urodziny.','Wracam do rzeczy, które dały mi najwięcej radości.']},
+ g5:{t:{4:'Otwartość',6:'Rytuały bliskości',8:'Wzajemność',9:'Mój krąg'},
+  4:['Rozmowy z mężem obejmują też trudniejsze tematy z listy.','Utrzymuję regularny kontakt z przyjaciółkami.','Mówię o swoich potrzebach na bieżąco.','Rozpoznaję relacje, które mnie wyczerpują.'],
+  6:['Mamy z mężem stałe rytuały bliskości.','Poznaję nowych ludzi i inspirujące środowiska.','Spokojnie przyjmuję odmowę.'],
+  8:['Swobodnie rozmawiam o trudnych tematach.','Inwestuję głównie w relacje wzajemne.','Naprawiam konflikty bez długiego odkładania.'],
+  9:['Mój krąg ludzi daje mi wsparcie i radość.','Jestem spokojna o to, z kim spędzam czas.','Świętuję 50. urodziny z ludźmi, których kocham.']}
+};
+GIDS.forEach(g=>{[4,6,8,9].forEach(y=>{MS[g][y]=EXTRA[g][y];G[g].yearTitles[y]=EXTRA[g].t[y];});});
+
+const SAV_T={1:33000,2:50000,3:85470,4:191500,5:297543,6:408000,7:518577,8:627000,9:736000,10:844459};
+// ================= MAGAZYN =================
+const KEY='cele10_v2', LKEY='cele10_local';
+const COLS=['goal','ms','task','habit','log','num','list','badge','set','reward'];
+let DB=(function(){try{const j=JSON.parse(localStorage.getItem(KEY));if(j&&j.data)return j;}catch(e){}return {data:{},lastSync:0};})();
+COLS.forEach(c=>{if(!DB.data[c])DB.data[c]={};});
+function LOC(){try{return JSON.parse(localStorage.getItem(LKEY))||{};}catch(e){return {};}}
+function setLOC(o){try{localStorage.setItem(LKEY,JSON.stringify(Object.assign(LOC(),o)));}catch(e){}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){}}
+const GSC={ms:1,task:1,habit:1,num:1};
+function all(c){return Object.values(DB.data[c]).filter(r=>!r.deleted&&(!GSC[c]||GIDS.includes(r.goalId)));}
+function get(c,id){const r=DB.data[c][id];return r&&!r.deleted?r:null;}
+function put(c,r){r.updatedAt=Date.now();delete r.deleted;DB.data[c][r.id]=r;persist();scheduleSync();}
+function del(c,id){const r=DB.data[c][id];if(r){r.deleted=1;r.updatedAt=Date.now();persist();scheduleSync();}}
+function seedPut(c,r){if(!DB.data[c][r.id]){r.updatedAt=1;DB.data[c][r.id]=r;}}
+function uid(p){return p+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function h(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// ================= DATY =================
+const DN=['pon','wt','śr','czw','pt','sob','nd'];
+const DNL=['poniedziałek','wtorek','środa','czwartek','piątek','sobota','niedziela'];
+const MG=['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','września','października','listopada','grudnia'];
+function ds(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function pd(s){const a=String(s).slice(0,10).split('-').map(Number);return new Date(a[0],a[1]-1,a[2]);}
+function addDays(s,n){const d=pd(s);d.setDate(d.getDate()+n);return ds(d);}
+function addYears(s,n){const d=pd(s);d.setFullYear(d.getFullYear()+n);return ds(d);}
+function addMonths1(s,n){const d=pd(s);return ds(new Date(d.getFullYear(),d.getMonth()+n,1));}
+function wd(s){return (pd(s).getDay()+6)%7;}
+function weekStart(s){return addDays(s,-wd(s));}
+function monthEnd(s){const d=pd(s);return ds(new Date(d.getFullYear(),d.getMonth()+1,0));}
+function TODAY(){return ds(new Date());}
+function fmtDay(s){const d=pd(s);return DNL[wd(s)]+', '+d.getDate()+' '+MG[d.getMonth()];}
+function fmtShort(s){const d=pd(s);return d.getDate()+' '+MG[d.getMonth()].slice(0,3);}
+function daysBetween(a,b){return Math.round((pd(b)-pd(a))/864e5);}
+function fmtNum(n){return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
+function fmtV(v){if(v==null||v==='')return '';v=Number(v);return Math.abs(v)>=1000?fmtNum(v):String(Math.round(v*10)/10).replace('.',',');}
+function pct(x){return Math.round((x||0)*100)+'%';}
+function SET(){return get('set','main')||{startDate:'2026-10-01',startAge:40};}
+function yearStart(y){return addYears(SET().startDate,y-1);}
+function yearEnd(y){return addDays(addYears(SET().startDate,y),-1);}
+function yearOf(d){const s=SET().startDate;if(d<s)return 1;let y=1;while(y<10&&addYears(s,y)<=d)y++;return y;}
+function curYear(){return yearOf(TODAY());}
+function pace(y){const t=TODAY(),a=yearStart(y),b=yearEnd(y);if(t<a)return 0;if(t>b)return 1;return (daysBetween(a,t)+1)/(daysBetween(a,b)+1);}
+function yrs(x,y){return (x.fromYear||1)<=y&&y<=(x.toYear||10);}
+
+// ================= DANE STARTOWE =================
+function buildNotes(g){const x=G[g],s=[];
+ if(x.areas.length)s.push('OBSZARY\n'+x.areas.map(a=>'• '+a[0]+': '+a[1]).join('\n'));
+ if(x.visionList.length)s.push('MOJA WIZJA NA 50\n'+x.visionList.map(v=>'• '+v).join('\n'));
+ if(g==='g2')s.push('MÓJ BUDŻET I WAKACJE\n'+YEARS.map(y=>'• Rok '+y+': '+fmtNum(BUDGET[y])+' zł/mies. dla mnie, wakacje '+fmtNum(VACATION[y])+' zł rocznie').join('\n'));
+ if(x.rules)s.push('MOJE ZASADY\n'+Object.keys(x.rules).map(k=>k+':\n'+x.rules[k].map(r=>'• '+r).join('\n')).join('\n'));
+ if(x.counts)s.push('CO LICZY SIĘ JAKO REALIZACJA PROJEKTU\n'+x.counts.map(v=>'• '+v).join('\n'));
+ if(x.principles.length)s.push((g==='g2'?'JAK RADZĘ SOBIE Z NAPIĘCIEM':'ZASADY, KTÓRE MNIE WSPIERAJĄ')+'\n'+x.principles.map(v=>'• '+v).join('\n'));
+ return s.join('\n\n');}
+const HSEED=[
+ ['h-g1-phone','g1','17:00–19:00 bez telefonu, uwaga na córki','days',1,[0,1,2,3,4]],
+ ['h-g1-emma','g1','Czas 1:1 z Emmą (20–30 min)','week',1],
+ ['h-g1-ania','g1','Czas 1:1 z Anią (20–30 min)','week',1],
+ ['h-g1-family','g1','Wspólna aktywność rodzinna','week',1],
+ ['h-g2-train','g2','Trening siłowy','week',4],
+ ['h-g2-med','g2','Medytacja 5–10 min','days',1,[]],
+ ['h-g3-create','g3','Blok twórczy (1 h)','week',2],
+ ['h-g3-music','g3','Muzyka (pianino, gitara, śpiew)','week',2],
+ ['h-g5-talk','g5','15 min rozmowy z mężem (bez telefonów)','days',1,[]],
+ ['h-g5-friends','g5','Kontakt z Marysią, Kasią lub Natalią','week',1],
+ ['h-g5-family','g5','Kontakt z Justyną lub braćmi','week',1]
+];
+const LSEED=[
+ {id:'l-ideas',goalId:'g3',name:'Bank pomysłów',items:SEED_IDEAS.map(i=>[i[0],i[1]])},
+ {id:'l-try',goalId:'g4',name:'Rzeczy do spróbowania',target:30,items:['Nowy przepis i kuchnia','Muzeum, wystawa, teatr','Weekend w nieznanym miejscu','Kurs lub warsztaty (np. ceramika, taniec)','Telefon do dawnej znajomej','Koncert nowego artysty','Nowe miasto w Polsce','Nowe hobby'].map(x=>[x,''])},
+ {id:'l-topics',goalId:'g5',name:'Tematy do rozmów z mężem',items:[['Codzienne sprawy i logistyka','łatwy'],['Plany na najbliższe tygodnie','łatwy'],['Rzeczy, które sprawiły nam radość','łatwy'],['Nasze marzenia i cele','średni'],['Trudne sytuacje z ostatniego czasu','średni'],['Nasze potrzeby w relacji','średni'],['Co możemy zrobić inaczej','trudny'],['Obawy i wrażliwe tematy','trudny'],['Wizja naszej przyszłości','trudny']]}
+];
+function sub(arr){return arr.map((x,i)=>({id:'s'+i,title:x,done:false}));}
+const LTASK={'l-ideas':['g3','Bank pomysłów: projekty twórcze'],'l-try':['g4','Lista 30 rzeczy, których chcę spróbować'],'l-topics':['g5','Tematy do rozmów z mężem (od łatwych do trudnych)']};
+const TSEED=[
+
+ {id:'t-g1-wzorce',goalId:'g1',title:'Spisać sytuacje i wzorce do pracy na terapii',kind:'once',date:'',fromYear:1,toYear:1,subtasks:[]},
+ {id:'t-g1-terapia',goalId:'g1',title:'Wrócić na terapię',kind:'once',date:'',fromYear:2,toYear:2,subtasks:sub(['Znaleźć terapeutę','Umówić pierwszą wizytę','Określić cele terapeutyczne'])},
+ {id:'t-g2-pomiar',goalId:'g2',title:'Zrobić pomiar bazowy',kind:'once',date:'',fromYear:1,toYear:1,subtasks:sub(['Waga','Tkanka tłuszczowa','Masa mięśniowa'])},
+ {id:'t-g2-budget',goalId:'g2',title:'Przegląd budżetu i wydatków',kind:'repeat',every:'month',fromYear:1,toYear:10,subtasks:sub(['Sprawdzić wydatki z miesiąca','Odłożyć na poduszkę','Wpisać stan oszczędności'])},
+ {id:'t-g3-main',goalId:'g3',title:'Wybrać główny projekt na ten rok',kind:'repeat',every:'year',fromYear:1,toYear:10,subtasks:[]},
+ {id:'t-g3-idea',goalId:'g3',title:'Dodać nowy pomysł do banku pomysłów',kind:'repeat',every:'year',fromYear:1,toYear:10,subtasks:[]},
+ {id:'t-g4-exp',goalId:'g4',title:'Nowe doświadczenie',kind:'repeat',every:'month',fromYear:1,toYear:10,subtasks:[]},
+ {id:'t-g4-solo',goalId:'g4',title:'Małe wyjście tylko dla siebie',kind:'repeat',every:'quarter',fromYear:1,toYear:10,subtasks:[]},
+ {id:'t-g4-brave',goalId:'g4',title:'Rzecz, która trochę mnie onieśmiela',kind:'repeat',every:'quarter',fromYear:1,toYear:10,subtasks:[]},
+ {id:'t-g4-trip',goalId:'g4',title:'Zaplanować większą podróż',kind:'repeat',every:'year',fromYear:1,toYear:10,subtasks:sub(['Wybrać kierunek','Ustalić termin i budżet','Zarezerwować'])},
+ {id:'t-g5-topic',goalId:'g5',title:'Rozmowa z mężem na temat z listy tematów',kind:'repeat',every:'week',wday:-1,fromYear:1,toYear:10,subtasks:[]},
+ {id:'t-g5-other',goalId:'g5',title:'Kontakt z kimś spoza stałego kręgu',kind:'repeat',every:'month2',fromYear:1,toYear:10,subtasks:[]},
+ {id:'t-g5-refl',goalId:'g5',title:'Miesięczna refleksja o relacjach (10–15 min)',kind:'repeat',every:'month',fromYear:1,toYear:10,subtasks:sub(G.g5.reflQ)}
+];
+function seed(){const t=TODAY(),fresh=!DB.seeded;
+ seedPut('set',{id:'main',startDate:'2026-10-01',startAge:40});
+ GIDS.forEach((g,i)=>seedPut('goal',{id:g,order:i,color:i,icon:G[g].icon,name:G[g].name,statement:G[g].statement,vision:G[g].vision,notes:buildNotes(g)}));
+ GIDS.forEach(g=>ALLY.forEach(y=>(MS[g][y]||[]).forEach((x,i)=>seedPut('ms',{id:'ms-'+g+'-'+y+'-'+i,goalId:g,year:y,text:x,done:false,order:i}))));
+ HSEED.forEach(x=>seedPut('habit',{id:x[0],goalId:x[1],name:x[2],freq:x[3],target:x[4],days:x[5]||[],createdOn:t,fromYear:1,toYear:10}));
+ if(!fresh&&(DB.seedV||1)<4){const now=Date.now();
+  Object.values(DB.data.list).filter(L=>!L.deleted).forEach(L=>{const m=LTASK[L.id],id='t-'+L.id,y=curYear();DB.data.task[id]={id,goalId:m?m[0]:L.goalId,title:m?m[1]:L.name,kind:'once',date:'',done:false,fromYear:y,toYear:y,createdAt:now,subtasks:(L.items||[]).map((i,k)=>({id:'s'+k,title:i.text+(i.note&&L.id!=='l-topics'?': '+i.note:''),done:!!i.done})),updatedAt:now};L.deleted=1;L.updatedAt=now;});
+  Object.values(DB.data.task).forEach(x=>{if(x.listId){x.listId='';x.pick='';x.updatedAt=now;}});
+  const o4=DB.data.task['t-g4-list'];if(o4&&!o4.deleted){o4.deleted=1;o4.updatedAt=now;}
+ }
+ LSEED.forEach(l=>{const m=LTASK[l.id];seedPut('task',{id:'t-'+l.id,goalId:m[0],title:m[1],kind:'once',date:'',done:false,fromYear:1,toYear:1,createdAt:0,subtasks:l.items.map((x,k)=>({id:'s'+k,title:x[0]+(x[1]&&l.id!=='l-topics'?': '+x[1]:''),done:false}))});});
+ TSEED.forEach(x=>{const r=clone(x);r.createdAt=0;r.done=false;if(r.kind==='repeat'){r.next=firstNext(r,t);r.paused=true;}seedPut('task',r);});
+ seedPut('num',{id:'n-weight',goalId:'g2',name:'Waga',unit:'kg',targets:{1:85},hist:[['2026-10-01',91]],order:1});
+ seedPut('num',{id:'n-fat',goalId:'g2',name:'Tkanka tłuszczowa',unit:'%',targets:{2:30,3:27,4:26,5:25,6:25,7:24.9},hist:[],order:2});
+ seedPut('num',{id:'n-muscle',goalId:'g2',name:'Masa mięśniowa',unit:'%',targets:{7:30,10:30},hist:[],order:3});
+ seedPut('num',{id:'n-sav',goalId:'g2',name:'Poduszka finansowa',unit:'zł',targets:SAV_T,hist:[],order:4});
+ seedPut('num',{id:'n-proj',goalId:'g3',name:'Ukończone projekty',unit:'',counter:true,targets:{2:1,3:2},hist:[['2026-10-01',0]],order:1});
+ if(!fresh&&(DB.seedV||1)<3){
+  // przejście z poprzedniej wersji
+  ['h-g2-budget','h-g4-exp','h-g5-refl'].forEach(id=>{const r=DB.data.habit[id];if(r&&!r.deleted){r.deleted=1;r.updatedAt=Date.now();}});
+  ['g3','g5'].forEach(g=>{const r=DB.data.goal[g];if(r&&r.updatedAt===1)r.notes=buildNotes(g);});
+  const n=DB.data.num['n-sav'];if(n&&n.updatedAt===1)n.targets=SAV_T;
+  const ot=DB.data.task['t-g4-30'];if(ot&&!ot.deleted&&ot.updatedAt===1){ot.deleted=1;}
+ }
+ // uzupełnienie brakujących pól (stare wpisy)
+ Object.values(DB.data.habit).forEach(b=>{if(b.fromYear==null){b.fromYear=1;b.toYear=10;}});
+ Object.values(DB.data.task).forEach(x=>{if(!x.kind){x.kind='once';const m=x.msId&&DB.data.ms[x.msId];const y=m?m.year:yearOf(x.date||t);x.fromYear=x.toYear=y;}if(!x.subtasks)x.subtasks=[];});
+ if(fresh)migrateV1();
+ if(!fresh&&(DB.seedV||1)<5){TSEED.forEach(z=>{const r=DB.data.task[z.id];if(r&&!r.deleted&&r.kind==='repeat'&&!(r.hist||[]).length&&r.paused==null){r.paused=true;}});}
+ convertRepeats();
+ if((DB.seedV||1)<7){Object.values(DB.data.habit).forEach(b=>{if(!b.reward&&(b.goalId==='g1'||b.goalId==='g5')&&b.id!=='h-g1-phone'){b.reward='exp';}});}
+ if((DB.seedV||1)<8){Object.values(DB.data.habit).forEach(b=>{if(['month2','quarter','year'].includes(b.freq)&&(b.state==='build'||b.state==='have'))b.state='on';});}
+ DB.seeded=1;DB.seedV=8;persist();
+}
+function convertRepeats(){const EV={week:'week',month:'month',month2:'month2',quarter:'quarter',year:'year'};
+ Object.values(DB.data.task).filter(x=>!x.deleted&&x.kind==='repeat').forEach(x=>{const id='h-'+x.id,seedy=x.updatedAt===1;
+  if(!DB.data.habit[id]){const fixed=x.every==='week'&&x.wday>=0;const hb={id,goalId:x.goalId,name:x.title,freq:fixed?'days':(EV[x.every]||'month'),target:1,days:fixed?[x.wday]:[],note:(x.subtasks||[]).map(z=>'• '+z.title).join('\n'),createdOn:TODAY(),fromYear:x.fromYear||1,toYear:x.toYear||10,state:'later',updatedAt:seedy?1:Date.now()};DB.data.habit[id]=hb;
+   (x.hist||[]).forEach(z=>{const lid='l-'+id+'-'+z.d;DB.data.log[lid]={id:lid,habitId:id,date:z.d,updatedAt:Date.now()};});}
+  x.deleted=1;if(!seedy)x.updatedAt=Date.now();});}
+function migrateV1(){try{const v=JSON.parse(localStorage.getItem('cele10_v1'));if(!v||!v.data)return;const now=Date.now();
+ Object.values(v.data.tasks||{}).filter(x=>!x.deleted&&x.updatedAt>1).forEach(x=>{const y=yearOf(x.date||TODAY());DB.data.task[x.id]={id:x.id,goalId:x.goalId||'g1',kind:'once',title:x.title,date:x.date||'',done:!!x.done,doneAt:x.doneAt||'',fromYear:y,toYear:y,subtasks:(x.subtasks||[]).map((s,i)=>({id:'s'+i,title:s.title,done:!!s.done})),updatedAt:now};});
+ Object.values(v.data.milestones||{}).filter(x=>!x.deleted&&x.updatedAt>1).forEach(x=>{const m=DB.data.ms[x.id]||{id:x.id,goalId:x.goalId,year:x.year,order:99};m.text=x.text;m.done=!!x.done;m.doneAt=x.doneAt||'';m.updatedAt=now;DB.data.ms[x.id]=m;});
+ Object.values(v.data.logs||{}).filter(x=>!x.deleted&&DB.data.habit[x.habitId]).forEach(x=>{const id='l-'+x.habitId+'-'+x.date;DB.data.log[id]={id,habitId:x.habitId,date:x.date,updatedAt:now};});
+}catch(e){}}
+
+// ================= ZADANIA CYKLICZNE =================
+const EVERY={week:'Co tydzień',month:'Co miesiąc',month2:'Co 2 miesiące',quarter:'Co kwartał',year:'Co rok'};
+const WIN={week:'w tym tygodniu',month:'w tym miesiącu',month2:'w tych 2 miesiącach',quarter:'w tym kwartale',year:'w tym roku planu'};
+function firstNext(x,from){const d=pd(from);
+ if(x.every==='week')return (x.wday==null||x.wday<0)?weekStart(from):addDays(from,((x.wday)-wd(from)+7)%7);
+ if(x.every==='month'||x.every==='month2')return ds(new Date(d.getFullYear(),d.getMonth(),1));
+ if(x.every==='quarter')return ds(new Date(d.getFullYear(),Math.floor(d.getMonth()/3)*3,1));
+ if(x.every==='year')return yearStart(yearOf(from));
+ return from;}
+function advance(x,s){if(x.every==='week')return addDays(s,7);if(x.every==='month')return addMonths1(s,1);if(x.every==='month2')return addMonths1(s,2);if(x.every==='quarter')return addMonths1(s,3);if(x.every==='year')return addYears(s,1);return addDays(s,1);}
+function cadence(x){if(x.kind!=='repeat')return x.date?fmtShort(x.date):'bez daty';if(x.every==='week'&&x.wday>=0)return 'co tydzień, '+DN[x.wday];return EVERY[x.every].toLowerCase();}
+function flexible(x){return x.kind==='repeat'&&!(x.every==='week'&&x.wday>=0);}
+function winEnd(x){if(!x.next)return '';if(x.every==='year')return yearEnd(yearOf(x.next));return addDays(advance(x,x.next),-1);}
+function inToday(x,d){if(doneToday(x))return true;if(!repeatDue(x,d))return false;if(!flexible(x))return true;return x.planned===d||daysBetween(d,winEnd(x))<=2;}
+function doneToday(x){return x.kind==='repeat'&&x.lastDone===TODAY();}
+function repeatDue(x,d){return x.kind==='repeat'&&!x.paused&&!frozen(d)&&yrs(x,yearOf(d))&&x.next&&x.next<=d;}
+function completions(){return all('task').reduce((s,x)=>s+(x.kind==='repeat'?(x.hist||[]).length:(x.done?1:0)),0);}
+function listOf(x){return x.listId?get('list',x.listId):null;}
+function itemOf(L,id){return L?(L.items||[]).find(i=>i.id===id):null;}
+
+function completeTask(id){const x=get('task',id),t=TODAY(),L=listOf(x),it=itemOf(L,x.pick);
+ if(L&&it){it.done=true;it.doneAt=t;put('list',L);}
+ if(x.kind==='repeat'){x.hist=(x.hist||[]).concat([{d:t,item:it?it.text:'',itemId:it?it.id:''}]);x.prevNext=x.next;x.prevSubs=clone(x.subtasks||[]);x.prevPick=x.pick||'';let n=x.next||t;do{n=advance(x,n);}while(n<=t);x.next=n;x.lastDone=t;(x.subtasks||[]).forEach(s=>s.done=false);x.pick='';}
+ else{x.done=true;x.doneAt=t;if(x.date&&x.date<t)x.date=t;}
+ put('task',x);
+ if(it)toast('Zrobione: '+it.text);}
+function undoTask(id){const x=get('task',id);
+ if(x.kind==='repeat'){if(x.lastDone!==TODAY())return;const last=(x.hist||[]).pop();x.next=x.prevNext;x.subtasks=x.prevSubs||x.subtasks;x.pick=x.prevPick||'';x.lastDone='';
+  if(last&&last.itemId){const L=listOf(x),it=itemOf(L,last.itemId);if(it){it.done=false;it.doneAt='';put('list',L);}}}
+ else{x.done=false;x.doneAt='';const L=listOf(x),it=itemOf(L,x.pick);if(it){it.done=false;it.doneAt='';put('list',L);}}
+ put('task',x);}
+
+// ================= CELE (dynamiczne) =================
+const PAL=[['#C98E96','#F7EAEB','#9E6670'],['#8FA88A','#EDF2EA','#5F7A5A'],['#C9A66B','#F8F0E1','#8E7240'],['#7E9FB5','#E8F0F5','#557489'],['#A07A9A','#F2E9F0','#77566F'],['#7FA8A3','#E6F1EF','#557C77'],['#9C93C4','#EEECF6','#6E66A0'],['#C49AB8','#F6ECF3','#8F6585']];
+const ICONS=['heart','lotus','bulb','mountain','people','star','sun','book','home','leaf'];
+function syncGoals(){const gs=Object.values(DB.data.goal).filter(r=>!r.deleted).sort((a,b)=>((a.order!=null?a.order:99)-(b.order!=null?b.order:99))||(a.id<b.id?-1:1));
+ GIDS.length=0;gs.forEach((r,i)=>{GIDS.push(r.id);const base=G[r.id]||(G[r.id]={yearTitles:{},quote:'',areas:[],visionList:[],principles:[]});const ci=r.color!=null?r.color:(G0.indexOf(r.id)>=0?G0.indexOf(r.id):i);const p=PAL[ci%PAL.length];
+  base.c=p[0];base.l=p[1];base.d=p[2];base.icon=r.icon||base.icon||'star';base.n=i+1;base.name=r.name;});}
+function firstG(){return GIDS[0];}
+function qGoal(){const q=LOC().qg;return GIDS.includes(q)?q:firstG();}
+// ================= MODEL =================
+function GN(g){const r=get('goal',g);return r?r.name:G[g].name;}
+function msOf(g,y){return all('ms').filter(m=>m.goalId===g&&(y==null||m.year===y)).sort((a,b)=>(a.order||0)-(b.order||0)||(a.updatedAt-b.updatedAt));}
+function habits(g,y){return all('habit').filter(x=>(!g||x.goalId===g)&&(y==null||yrs(x,y))).sort((a,b)=>a.id<b.id?-1:1);}
+function tasksOf(g,y){return all('task').filter(x=>x.goalId===g&&yrs(x,y));}
+function applies(hb,d){return hb.freq==='days'&&activeH(hb)&&!frozen(d)&&yrs(hb,yearOf(d))&&(!hb.days||!hb.days.length||hb.days.includes(wd(d)))&&(hb.createdOn||'')<=d;}
+function logged(hid,d){return !!get('log','l-'+hid+'-'+d);}
+function nLogs(hid,a,b){return all('log').filter(l=>l.habitId===hid&&l.date>=a&&l.date<=b).length;}
+function period(hb,d){if(hb.freq==='days')return [d,d];const s=pStart(hb,d);return [s,pEnd(hb,s)];}
+function prog(hb,d){const p=period(hb,d);return {done:nLogs(hb.id,p[0],p[1]),need:hb.freq==='days'?1:(Number(hb.target)||1)};}
+function habitRate(hb){if(!activeH(hb))return null;const t=TODAY();let from=addDays(t,-27);const c=hb.createdOn||SET().startDate;if(c>from)from=c;const n=daysBetween(from,t)+1;if(n<7)return null;
+ if(hb.freq==='days'){let need=0,done=0;for(let i=0;i<n;i++){const d=addDays(from,i);if(!applies(hb,d))continue;if(d===t&&!logged(hb.id,d))continue;need++;if(logged(hb.id,d))done++;}return need?done/need:null;}
+ return Math.min(1,nLogs(hb.id,from,t)/((Number(hb.target)||1)*n/(PDAYS[hb.freq]||7)));}
+const PDAYS={week:7,month:30,month2:61,quarter:91,year:365};
+const PWORD={week:'w tygodniu',month:'w miesiącu',month2:'na 2 miesiące',quarter:'na kwartał',year:'w roku'};
+function habDesc(hb){if(hb.freq==='days')return hb.days&&hb.days.length&&hb.days.length<7?hb.days.map(i=>DN[i]).join(', '):'codziennie';return hb.target+'× '+(PWORD[hb.freq]||'');}
+function yearsDesc(x){const a=x.fromYear||1,b=x.toYear||10;return a===1&&b===10?'':(a===b?'Rok '+a:'lata '+a+'–'+b);}
+function nums(g){return all('num').filter(n=>n.goalId===g).sort((a,b)=>(a.order||0)-(b.order||0));}
+function lists(g){return all('list').filter(l=>!g||l.goalId===g).sort((a,b)=>a.name<b.name?-1:1);}
+function nLast(n){const hs=(n.hist||[]).slice().sort((a,b)=>a[0]<b[0]?-1:1);return hs.length?hs[hs.length-1][1]:null;}
+function nTarget(n,y){const ks=Object.keys(n.targets||{}).map(Number).filter(k=>n.targets[k]!==''&&n.targets[k]!=null).sort((a,b)=>a-b);if(!ks.length)return null;const k=ks.find(v=>v>=y);const yy=k!=null?k:ks[ks.length-1];return {y:yy,v:Number(n.targets[yy])};}
+function nProg(n,y){const tg=nTarget(n,y||curYear()),hs=(n.hist||[]).slice().sort((a,b)=>a[0]<b[0]?-1:1);if(!tg||!hs.length)return null;const st=hs[0][1],v=hs[hs.length-1][1];if(tg.v===st)return 1;return Math.max(0,Math.min(1,(v-st)/(tg.v-st)));}
+
+// ---- ocena celu ----
+function health(g){const y=curYear(),ms=msOf(g,y),dn=ms.filter(m=>m.done).length,msP=ms.length?dn/ms.length:null,p=pace(y);
+ const rs=habits(g,y).map(habitRate).filter(x=>x!=null),hP=rs.length?rs.reduce((a,b)=>a+b,0)/rs.length:null,gap=msP==null?0:msP-p;
+ let st;
+ if(hP==null&&p<0.15&&(msP||0)<0.2)st='start';
+ else if((hP!=null&&hP<0.5)||gap<-0.25)st='focus';
+ else if((hP==null||hP>=0.8)&&gap>=-0.05)st='great';
+ else st='ok';
+ const score=(hP!=null?hP:0.7)*0.5+(0.5+gap)*0.5;
+ let why='';
+ if(st==='focus')why=(hP!=null&&hP<0.5)?'Nawyki tylko '+pct(hP)+' w ostatnich 4 tygodniach.':dn+' z '+ms.length+' punktów kierunku, a minęło już '+pct(p)+' roku.';
+ else if(st==='great')why=hP!=null?'Nawyki '+pct(hP)+(gap>0.1?', kierunek przed planem':'')+'.':dn+' z '+ms.length+' punktów, przed planem.';
+ else if(st==='ok')why=dn+' z '+ms.length+' punktów kierunku'+(hP!=null?' · nawyki '+pct(hP):'')+'.';
+ else why='Za wcześnie na ocenę.';
+ return {g,st,dn,tot:ms.length,msP,p,hP,score,why};}
+const ST={great:['Świetnie','#EDF2EA','#5F7A5A'],ok:['W normie','#F8F0E1','#8E7240'],focus:['Skup się','#F7EAEB','#9E6670'],start:['Początek','#F1EDEF','#8A8288']};
+function nextStep(g){const y=curYear();const t=tasksOf(g,y).filter(x=>x.kind==='once'&&!x.done&&!x.date).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0))[0];
+ if(t)return {type:'task',t};const m=msOf(g,y).find(x=>!x.done);return m?{type:'ms',m}:null;}
+
+// ---- dzień ----
+function dayItems(d){const t=TODAY(),isT=d===t,r=[];if(frozen(d))return r;
+ all('task').filter(x=>x.kind==='once'&&x.date&&x.date<d&&!x.done&&isT).sort((a,b)=>a.date<b.date?-1:1).forEach(x=>r.push({k:'t',x,done:false,late:true}));
+ habits().filter(hb=>applies(hb,d)).forEach(hb=>r.push({k:'h',hb,done:logged(hb.id,d)}));
+ habits(null,yearOf(d)).filter(hb=>activeH(hb)&&hb.freq!=='days').forEach(hb=>{const p=prog(hb,d),on=logged(hb.id,d);if(on||p.done<p.need)r.push({k:'h',hb,done:on,per:p});});
+ habits(null,yearOf(d)).filter(hb=>hState(hb)==='on'&&!frozen(d)).forEach(hb=>{const p=prog(hb,d),on=logged(hb.id,d),left=daysBetween(d,ritualEnd(hb,d));if(on||(p.done<p.need&&left<=(hb.freq==='year'?30:14)))r.push({k:'h',hb,done:on,per:p,rit:true});});
+ if(isT)all('task').filter(x=>inToday(x,d)).sort((a,b)=>(a.next||'')<(b.next||'')?-1:1).forEach(x=>r.push({k:'t',x,done:doneToday(x)}));
+ all('task').filter(x=>x.kind==='once'&&x.date===d).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).forEach(x=>r.push({k:'t',x,done:x.done}));
+ return r;}
+function dayFull(d){const it=dayItems(d).filter(i=>!i.late&&!(i.k==='t'&&i.x.kind==='repeat')&&!i.per);return it.length>0&&it.every(i=>i.done);}
+
+// ================= UI =================
+const UI={view:'today',date:TODAY(),goal:null,y:null,mode:'year',open:{}};
+let EDIT=null;
+const IC={
+ star2:'',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/>',
+ home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+ leaf:'<path d="M5 19C5 10 10 5 20 4c-1 10-6 15-15 15z"/><path d="M5 19l8-8"/>',
+ star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+ heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+ lotus:'<path d="M12 19c-4.5 0-8-2.2-9-6 2.8 0 4.8 1 6 2.3C8.3 12 9.3 8.4 12 5c2.7 3.4 3.7 7 3 10.3 1.2-1.3 3.2-2.3 6-2.3-1 3.8-4.5 6-9 6z"/>',
+ bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+ mountain:'<path d="M3 19l6-9 4 5 3-4 5 8z"/><path d="M8 11.5l1 1.5 1-1"/>',
+ people:'<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3.2 2.7-5 6-5s6 1.8 6 5M15.5 14.2c3 .1 5.5 1.6 5.5 4.8"/>',
+ left:'<path d="M15 5l-7 7 7 7"/>',right:'<path d="M9 5l7 7-7 7"/>',plus:'<path d="M12 5v14M5 12h14"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',pen:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/>',
+ repeat:'<path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+ list:'<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
+ dice:'<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.1"/><circle cx="15" cy="15" r="1.1"/><circle cx="15" cy="9" r="1.1"/><circle cx="9" cy="15" r="1.1"/>',
+ sync:'<path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"/>'
+};
+function ic(n,s,col,w){return '<svg width="'+(s||20)+'" height="'+(s||20)+'" viewBox="0 0 24 24" fill="none" stroke="'+(col||'currentColor')+'" stroke-width="'+(w||1.8)+'" stroke-linecap="round" stroke-linejoin="round">'+IC[n]+'</svg>';}
+function gb(g,s){s=s||40;return '<span class="gbadge" style="width:'+s+'px;height:'+s+'px;background:'+G[g].c+'">'+ic(G[g].icon,Math.round(s*0.55),'#FFFFFF',1.6)+'</span>';}
+function ring(p,col,size,label,fs){size=size||64;const sw=size>40?6:4,r=size/2-sw/2-1,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(1,p)));
+ return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="#EFE7E6" stroke-width="'+sw+'"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+size/2+' '+size/2+')"/>'+(label!==''?'<text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle" font-size="'+(fs||Math.round(size/4.3))+'" font-family="Inter,sans-serif" font-weight="600" fill="#3E3A3D">'+(label!=null?label:Math.round(p*100)+'%')+'</text>':'')+'</svg>';}
+function bar(p,col,hh,mark){return '<div class="bar" style="height:'+(hh||8)+'px"><i style="width:'+(Math.max(0,Math.min(1,p))*100).toFixed(1)+'%;background:'+col+'"></i>'+(mark!=null?'<em style="left:'+(Math.max(0,Math.min(1,mark))*100).toFixed(1)+'%"></em>':'')+'</div>';}
+function cb(on,col,act,data,small){return '<button class="cb'+(on?' on':'')+(small?' s':'')+'" style="'+(on?'background:'+col+';border-color:'+col:'border-color:'+col)+'" data-act="'+act+'" '+(data||'')+' aria-label="Zrobione">'+(on?ic('check',small?11:14,'#FFFFFF',2.6):'')+'</button>';}
+function sech(title,hint,act,data){return '<div class="sech"><div><h3>'+title+'</h3>'+(hint?'<div class="hint">'+hint+'</div>':'')+'</div>'+(act?'<button class="addb" data-act="'+act+'" '+(data||'')+' aria-label="Dodaj">'+ic('plus',18)+'</button>':'')+'</div>';}
+
+function render(force){const ae=document.activeElement,v=document.getElementById('view');
+ if(!force&&ae&&v.contains(ae)&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName))return;
+ lifeCheck();
+ v.innerHTML=UI.view==='today'?vToday():UI.view==='habits'?vHabits():(UI.goal?vGoal(UI.goal):vGoals());
+ document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===UI.view));
+ checkBadges();
+ autoPopups();}
+function autoPopups(){if(UI.view!=='today'||EDIT||!document.getElementById('sheet').classList.contains('hidden'))return;const s=SET();
+ if(!s.setupDone&&!UI.autoSetup){UI.autoSetup=true;setTimeout(()=>A.openSetup(),300);return;}
+ if(reviewDue()&&LOC().rvShown!==TODAY()){setLOC({rvShown:TODAY()});setTimeout(()=>A.reviewOpen(),300);}}
+
+// ---------- DZIŚ ----------
+function vToday(){const d=UI.date,t=TODAY(),isT=d===t,items=dayItems(d),open=items.filter(i=>!i.done),done=items.filter(i=>i.done);
+ let o='<div class="dayhead"><button class="iconbtn" data-act="dayNav" data-n="-1" aria-label="Poprzedni dzień">'+ic('left',20)+'</button><div class="dh-mid"><div class="eyebrow">'+(isT?'Dziś':(d<t?'Wcześniej':'Plan'))+' · Rok '+yearOf(d)+'</div><h2>'+fmtDay(d)+'</h2></div><button class="iconbtn" data-act="dayNav" data-n="1" aria-label="Następny dzień">'+ic('right',20)+'</button></div>';
+ if(!isT)o+='<button class="linkbtn center" data-act="dayNav" data-n="0">Wróć do dziś</button>';
+ if(frozen(d))return o+vacBanner(d);
+ if(isT)o+=setupCard();
+ if(items.length)o+='<div class="daysum">'+ring(done.length/items.length,'#A07A9A',34,'')+'<span>'+(open.length?'Zostało <b>'+open.length+'</b> z '+items.length:'<b>Dzień zrobiony.</b> Brawo! 🌿')+'</span></div>';
+ o+='<div class="card list">';
+ if(!items.length)o+='<div class="empty">Nic zaplanowanego na ten dzień.</div>';
+ open.concat(done).forEach(i=>o+=i.k==='h'?habRow(i,d):taskRow(i.x,{late:i.late,done:i.done,today:isT}));
+ const qg=qGoal();
+ o+='<div class="qadd"><input id="qIn" placeholder="Dodaj zadanie na '+(isT?'dziś':fmtShort(d))+'…" data-enter="qAdd" enterkeyhint="done"><div class="qdots">'+GIDS.map(g=>'<button class="qdot'+(g===qg?' on':'')+'" data-act="qGoal" data-g="'+g+'" style="background:'+G[g].c+(g===qg?';box-shadow:0 0 0 2px #FFFFFF,0 0 0 4px '+G[g].c:'')+'" aria-label="'+h(GN(g))+'"></button>').join('')+'</div></div></div>';
+ o+=weekCard(d);
+ o+=periodCard(d);
+ return o;}
+function habRow(i,d){const hb=i.hb,c=G[hb.goalId].c;return '<div class="item"><div class="row">'+cb(i.done,c,'habToggle','data-id="'+hb.id+'" data-d="'+d+'"')+'<div class="rt'+(i.done?' done':'')+'" data-act="habEdit" data-id="'+hb.id+'"><div>'+h(hb.name)+'</div><div class="meta"><span class="dot" style="background:'+c+'"></span>'+h(GN(hb.goalId))+(i.rit?' · rytuał · do '+fmtShort(ritualEnd(hb,d)):(i.per?' · '+i.per.done+'/'+i.per.need+' '+PWORD[hb.freq]:'')+' · '+progText(hb))+'</div></div></div></div>';}
+function taskRow(x,o2){o2=o2||{};const c=G[x.goalId].c,st=x.subtasks||[],sd=st.filter(s=>s.done).length,done=o2.done!=null?o2.done:(x.kind==='once'&&x.done),L=listOf(x),it=itemOf(L,x.pick);
+ let meta='';
+ if(o2.inGoal)meta=(x.kind==='repeat'?ic('repeat',12,'#9A8F96')+' '+cadence(x)+(x.next?' · następne '+fmtShort(x.next):''):(x.date?fmtShort(x.date):'bez daty'));
+ else meta='<span class="dot" style="background:'+c+'"></span>'+h(GN(x.goalId))+(x.kind==='repeat'?' · '+WIN[x.every]:'')+(o2.late?' · <b class="late">z '+fmtShort(x.date)+'</b>':'');
+ if(st.length)meta+=' · <button class="subtog" data-act="subsT" data-id="'+x.id+'">'+sd+'/'+st.length+' kroków '+(UI.open[x.id]?'▴':'▾')+'</button>';
+ const yd=o2.inGoal?yearsDesc(x):'';if(yd&&x.kind==='repeat')meta+=' · '+yd;
+ if(x.paused&&o2.inGoal)return '<div class="item paused"><div class="row"><span class="pz">'+ic('repeat',16,'#B9AFB3')+'</span><div class="rt" data-act="taskEdit" data-id="'+x.id+'"><div>'+h(x.title)+'</div><div class="meta">'+cadence(x)+' · wstrzymane'+(st.length?' · '+st.length+' kroków':'')+'</div></div><button class="btn sm ghost" data-act="taskResume" data-id="'+x.id+'">Włącz</button></div></div>';
+ let o='<div class="item"><div class="row">'+cb(done,c,done?'taskUndo':'taskDone','data-id="'+x.id+'"')+'<div class="rt'+(done?' done':'')+'" data-act="taskEdit" data-id="'+x.id+'"><div>'+(L?ic('list',14,c)+' ':'')+h(x.title)+'</div><div class="meta">'+meta+'</div></div>'+(o2.inGoal&&!done?starBtn(x)+(x.kind==='repeat'?'<button class="mini" data-act="taskPause" data-id="'+x.id+'" title="Wstrzymaj" aria-label="Wstrzymaj">❙❙</button>':''):'')+'</div>';
+ if(L&&!done)o+='<div class="pickrow">'+(it?'<span class="picked" style="background:'+G[x.goalId].l+'">→ '+h(it.text)+'</span><button class="linkbtn sm" data-act="pickOpen" data-id="'+x.id+'">zmień</button>':'<button class="btn sm ghost" data-act="pickOpen" data-id="'+x.id+'">'+ic('list',14)+' Wybierz z: '+h(L.name)+'</button>')+'</div>';
+ if(done&&L&&x.kind==='repeat'&&doneToday(x)){const last=(x.hist||[]).slice(-1)[0];if(last&&last.item)o+='<div class="pickrow"><span class="meta">✓ '+h(last.item)+'</span></div>';}
+ if(st.length&&!done&&UI.open[x.id])o+='<div class="subs">'+st.map((s,k)=>'<div class="row sub">'+cb(s.done,c,'subToggle','data-id="'+x.id+'" data-i="'+k+'"',1)+'<div class="rt'+(s.done?' done':'')+'" data-act="taskEdit" data-id="'+x.id+'">'+h(s.title)+'</div></div>').join('')+'</div>';
+ return o+'</div>';}
+function periodCard(d){if(d!==TODAY()||frozen(d))return '';const l=all('task').filter(x=>repeatDue(x,d)&&!inToday(x,d)).sort((a,b)=>winEnd(a)<winEnd(b)?-1:1);if(!l.length)return '';
+ let o=sech('Do zrobienia w tym okresie','Weź na dziś to, na co masz przestrzeń.')+'<div class="card list">';
+ const more=l.length-3;(UI.allPer?l:l.slice(0,3)).forEach(x=>{const c=G[x.goalId];o+='<div class="row">'+cb(false,c.c,'taskDone','data-id="'+x.id+'"')+'<div class="rt" data-act="taskEdit" data-id="'+x.id+'"><div>'+(x.listId?ic('list',14,c.c)+' ':'')+h(x.title)+'</div><div class="meta"><span class="dot" style="background:'+c.c+'"></span>'+h(GN(x.goalId))+' · '+WIN[x.every]+' · do '+fmtShort(winEnd(x))+'</div></div>'+starBtn(x)+'<button class="btn sm ghost" data-act="planToday" data-id="'+x.id+'">Na dziś</button></div>';});
+ if(more>0)o+='<button class="linkbtn" data-act="allPer">'+(UI.allPer?'Pokaż mniej':'Pokaż wszystkie ('+l.length+')')+'</button>';
+ return o+'</div>';}
+function chipsCard(d){if(frozen(d))return '';const y=yearOf(d),hs=habits(null,y).filter(hb=>activeH(hb)).filter(hb=>hb.freq!=='days');
+ if(!hs.length)return '';const pend=hs.filter(hb=>{const p=prog(hb,d);return p.done<p.need||logged(hb.id,d);});
+ let o=sech('Nawyki w tym okresie','Ile razy w tygodniu, miesiącu lub kwartale. Dotknij, gdy zrobisz.')+'<div class="card">';
+ if(!pend.length)o+='<div class="empty">Wszystko na ten okres zrobione 🌿</div>';
+ else o+='<div class="hchips">'+pend.map(hb=>{const p=prog(hb,d),on=logged(hb.id,d),x=G[hb.goalId];
+  return '<button class="hchip'+(on?' on':'')+'" data-act="habToggle" data-id="'+hb.id+'" data-d="'+d+'" style="'+(on?'background:'+x.l+';border-color:'+x.c:'')+'">'+(on?ic('check',14,x.d,2.4):'<span class="dot" style="background:'+x.c+'"></span>')+'<span>'+h(hb.name)+'</span><small>'+p.done+'/'+p.need+' '+(PWORD[hb.freq]||'')+'</small></button>';}).join('')+'</div>';
+ return o+'</div>';}
+function focusCard(any){const hs=GIDS.map(health);let f=hs.filter(x=>x.st==='focus').sort((a,b)=>a.score-b.score)[0],lbl='Skup się na';
+ if(!f&&any){f=hs.slice().sort((a,b)=>a.score-b.score)[0];lbl='Masz chwilę? Następny krok';}
+ if(!f)return '';const x=G[f.g],ns=nextStep(f.g);
+ let o='<div class="focus" style="background:'+x.l+'"><div class="ftop" data-act="openGoal" data-g="'+f.g+'">'+gb(f.g,34)+'<div><div class="eyebrow" style="color:'+x.d+'">'+lbl+'</div><b>'+h(GN(f.g))+'</b></div></div>'+(f.st==='focus'?'<div class="fwhy">'+h(f.why)+'</div>':'');
+ if(ns)o+='<div class="fstep"><span>'+(ns.type==='task'?h(ns.t.title):h(ns.m.text))+'</span><button class="btn sm" style="background:'+x.c+'" data-act="'+(ns.type==='task'?'stepToday':'stepPlan')+'" data-id="'+(ns.type==='task'?ns.t.id:ns.m.id)+'">'+(ns.type==='task'?'Na dziś':'Zaplanuj krok')+'</button></div>';
+ return o+'</div>';}
+
+// ---------- CELE ----------
+function vGoals(){const s=SET(),cy=curYear(),age=Number(s.startAge)||40,hs=GIDS.map(health);
+ let o='<div class="hero"><div class="eyebrow">Moje wielkie cele · '+GIDS.length+'</div><h1>na 50. urodziny</h1><div class="sub">Rok '+cy+' z 10 · wiek '+(age+cy-1)+'–'+(age+cy)+'</div></div>';
+ o+='<div class="seg"><button class="'+(UI.mode==='year'?'on':'')+'" data-act="mode" data-m="year">Ten rok</button><button class="'+(UI.mode==='all'?'on':'')+'" data-act="mode" data-m="all">Całe 10 lat</button></div>';
+ if(UI.mode==='year'){
+  const ms=GIDS.reduce((a,g)=>a.concat(msOf(g,cy)),[]),dn=ms.filter(m=>m.done).length,rs=habits(null,cy).map(habitRate).filter(x=>x!=null),hr=rs.length?rs.reduce((a,b)=>a+b,0)/rs.length:null;
+  o+='<div class="card sum">'+ring(ms.length?dn/ms.length:0,'#A07A9A',92)+'<div><div class="eyebrow">Kierunek · Rok '+cy+'</div><b class="big">'+dn+' z '+ms.length+'</b><div class="meta">'+fmtShort(yearStart(cy))+' '+pd(yearStart(cy)).getFullYear()+' – '+fmtShort(yearEnd(cy))+' '+pd(yearEnd(cy)).getFullYear()+'</div><div class="meta">Minęło <b>'+pct(pace(cy))+'</b> roku'+(hr!=null?' · nawyki 4 tyg.: <b>'+pct(hr)+'</b>':'')+'</div></div></div>';
+  const gr=hs.filter(x=>x.st==='great').sort((a,b)=>b.score-a.score).slice(0,2),fc=hs.filter(x=>x.st==='focus').sort((a,b)=>a.score-b.score).slice(0,2);
+  o+='<div class="card insight">';
+  if(!gr.length&&!fc.length)o+=hs.every(x=>x.st==='start')?'<p>🌱 Pierwsze tygodnie. Ocena pojawi się po 7 dniach nawyków. Na razie po prostu odhaczaj to, co na dziś.</p>':'<p>👍 Wszystko w normie. Trzymaj rytm.</p>';
+  gr.forEach(x=>o+='<p data-act="openGoal" data-g="'+x.g+'"><span class="ins ok">Dobrze idzie</span><b>'+h(GN(x.g))+'</b> · '+h(x.why)+'</p>');
+  fc.forEach(x=>o+='<p data-act="openGoal" data-g="'+x.g+'"><span class="ins fo">Skup się na</span><b>'+h(GN(x.g))+'</b> · '+h(x.why)+'</p>');
+  o+='</div>';
+  hs.forEach(x=>{const c=G[x.g],s2=ST[x.st];
+   o+='<div class="gcard" data-act="openGoal" data-g="'+x.g+'">'+gb(x.g,42)+'<div class="gc-m"><div class="gtop"><b>'+h(GN(x.g))+'</b><span class="stp" style="background:'+s2[1]+';color:'+s2[2]+'">'+s2[0]+'</span></div>'+bar(x.msP||0,c.c,7,x.p)+'<div class="meta">'+x.dn+' z '+x.tot+' punktów kierunku'+(x.hP!=null?' · nawyki '+pct(x.hP):'')+'</div></div></div>';});
+  o+='<div class="meta center">Kreska na pasku = ile roku minęło.</div><div class="btnrow center"><button class="btn ghost" data-act="goalNew">'+ic('plus',16)+' Nowy cel</button></div>';
+ }else{
+  const alm=all('ms'),dn=alm.filter(m=>m.done).length;
+  o+='<div class="card sum">'+ring(alm.length?dn/alm.length:0,'#A07A9A',92)+'<div><div class="eyebrow">Droga do 50</div><b class="big">'+dn+' z '+alm.length+'</b><div class="meta">punktów kierunku we wszystkich latach</div></div></div>';
+  o+='<div class="card grid"><div class="grow head"><span></span>'+ALLY.map(y=>'<span class="'+(y===cy?'now':'')+'">'+y+'<small>'+(age+y)+'</small></span>').join('')+'</div>';
+  GIDS.forEach(g=>{o+='<div class="grow"><span class="gname" data-act="openGoal" data-g="'+g+'">'+gb(g,24)+'</span>'+ALLY.map(y=>{const l=msOf(g,y),p=l.length?l.filter(m=>m.done).length/l.length:0;return '<button class="gcell'+(y===cy?' now':'')+'" data-act="openGoalY" data-g="'+g+'" data-y="'+y+'">'+(p>=1?'<span class="full" style="background:'+G[g].c+'">'+ic('check',11,'#FFFFFF',2.6)+'</span>':ring(p,G[g].c,24,''))+'</button>';}).join('')+'</div>';});
+  o+='<div class="meta center">Dotknij kółka, żeby otworzyć plan danego roku.</div></div>';
+ }
+ return o+rewardsCard()+badgeStrip();}
+
+// ---------- PLAN CELU NA ROK ----------
+function vGoal(g){const x=G[g],gr=get('goal',g)||{},cy=curYear();if(!UI.y)UI.y=cy;const y=UI.y,ms=msOf(g,y),dn=ms.filter(m=>m.done).length,age=Number(SET().startAge)||40;
+ let o='<div class="ghead" style="background:'+x.l+'"><div class="ghbar"><button class="iconbtn" data-act="closeGoal" aria-label="Wróć">'+ic('left',22,x.d)+'</button><button class="iconbtn" data-act="goalEdit" data-g="'+g+'" aria-label="Edytuj cel">'+ic('pen',19,x.d)+'</button></div><div class="gh-in">'+gb(g,48)+'<div><div class="eyebrow" style="color:'+x.d+'">Cel '+x.n+'</div><h2>'+h(gr.name)+'</h2></div></div><div class="gh-sub">'+h(gr.statement)+'</div></div>';
+ o+='<div class="chips">'+ALLY.map(yy=>{const l=msOf(g,yy),full=l.length&&l.every(m=>m.done),on=yy===y;return '<button class="chip'+(on?' on':'')+'" style="'+(on?'background:'+x.c+';border-color:'+x.c+';color:#FFFFFF':'')+'" data-act="goalY" data-y="'+yy+'">Rok '+yy+(yy===cy?' •':'')+(full?' ✓':'')+'</button>';}).join('')+'</div>';
+ o+='<div class="yearbar" style="color:'+x.d+'">Plan na Rok '+y+' · wiek '+(age+y-1)+'–'+(age+y)+' · '+fmtShort(yearStart(y))+' '+pd(yearStart(y)).getFullYear()+' – '+fmtShort(yearEnd(y))+' '+pd(yearEnd(y)).getFullYear()+'</div>';
+ // 1. kierunek
+ o+=sech('1. Kierunek na ten rok','Co chcę osiągnąć. Odhacz, gdy jest zrobione.','msNew','data-g="'+g+'"');
+ o+='<div class="card"><div class="mshead"><h3>'+h(x.yearTitles[y]||'')+'</h3>'+ring(ms.length?dn/ms.length:0,x.c,46)+'</div><div class="list">';
+ if(!ms.length)o+='<div class="empty">Brak kierunku na ten rok. Dodaj go przyciskiem +.</div>';
+ ms.forEach(m=>{o+='<div class="row">'+cb(m.done,x.c,'msToggle','data-id="'+m.id+'"')+'<div class="rt'+(m.done?' done':'')+'" data-act="msEdit" data-id="'+m.id+'"><div>'+h(m.text)+'</div>'+(m.done&&m.doneAt?'<div class="meta">zrobione '+fmtShort(m.doneAt)+'</div>':'')+'</div></div>';});
+ o+='</div></div>';
+ // 2. nawyki
+ const hb=habits(g,y);
+ o+=sech('2. Nawyki','Co robię regularnie. Buduję max 2 naraz, resztę w zakładce Nawyki.','habNew','data-g="'+g+'"')+'<div class="card list">';
+ if(!hb.length)o+='<div class="empty">Brak nawyków w tym roku.</div>';
+ hb.forEach(b=>{const yd=yearsDesc(b),S=HST[hState(b)],bs=hState(b)==='build'?' '+Math.round(progFrac(b)*100)+'%':'';o+='<div class="row" data-act="habEdit" data-id="'+b.id+'"><div class="rt"><div>'+h(b.name)+'</div><div class="meta">'+ic('repeat',12,'#9A8F96')+' '+habDesc(b)+(yd?' · '+yd:'')+'</div></div><span class="pill" style="background:'+S[1]+';color:'+S[2]+'">'+S[0]+bs+'</span></div>';});
+ o+='</div>';
+ // 3. zadania
+ const ts=tasksOf(g,y),rep=ts.filter(t=>t.kind==='repeat').sort((a,b)=>(!!a.paused)-(!!b.paused)),one=ts.filter(t=>t.kind==='once'&&!t.done).sort((a,b)=>(a.date||'9')<(b.date||'9')?-1:1),dOne=ts.filter(t=>t.kind==='once'&&t.done);
+ o+=sech('3. Zadania','Konkretne działania do zrobienia raz, z krokami. To, co się powtarza, jest nawykiem.','taskNew','data-g="'+g+'"')+'<div class="card list">';
+ if(!rep.length&&!one.length)o+='<div class="empty">Brak zadań. Rozbij kierunek na małe kroki.</div>';
+ rep.concat(one).forEach(t=>o+=taskRow(t,{inGoal:true,done:t.kind==='once'?t.done:doneToday(t)}));
+ if(dOne.length)o+='<div class="meta donec">✓ Zrobione w tym roku: '+dOne.length+'</div>';
+ o+='</div>';
+ // 4. trackery
+ const ns=nums(g);
+ o+=sech('4. Trackery','Liczby do śledzenia, z celem na każdy rok.','numNew','data-g="'+g+'"');
+ if(ns.length){o+='<div class="card list">';ns.forEach(n=>{const v=nLast(n),tg=nTarget(n,y),p=nProg(n,y);
+  o+='<div class="row col"><div class="rowtop"><div class="rt" data-act="numOpen" data-id="'+n.id+'"><div>'+h(n.name)+'</div><div class="meta">'+(tg?'cel na Rok '+tg.y+': '+fmtV(tg.v)+' '+h(n.unit):'bez celu')+'</div></div><b class="nval" data-act="numOpen" data-id="'+n.id+'">'+(v!=null?fmtV(v)+' <small>'+h(n.unit)+'</small>':'<small>wpisz</small>')+'</b>'+(n.counter?'<button class="btn sm" style="background:'+x.c+'" data-act="numPlus" data-id="'+n.id+'">+1</button>':'')+'</div>'+(p!=null?bar(p,x.c,6):'')+'</div>';});o+='</div>';}
+ else o+='<div class="card"><div class="empty">Np. waga, oszczędności, liczba projektów.</div></div>';
+ o+='<details class="card det"><summary>Wizja i notatki</summary><p class="vision">'+h(gr.vision)+'</p><div class="notes">'+h(gr.notes||'')+'</div><button class="linkbtn" data-act="goalEdit" data-g="'+g+'">Edytuj</button></details>';
+ return o;}
+
+// ================= ODZNAKI =================
+function fullStreak(){let d=TODAY(),n=0;if(!dayFull(d))d=addDays(d,-1);for(let i=0;i<400;i++){if(d<SET().startDate)break;if(dayFull(d)){n++;d=addDays(d,-1);}else break;}return n;}
+function weekStreakMax(){let best=0;habits().filter(b=>b.freq==='week').forEach(b=>{let ws=weekStart(TODAY()),n=0;const cur=prog(b,ws);if(cur.done>=cur.need)n++;ws=addDays(ws,-7);for(let i=0;i<260;i++){if(addDays(ws,6)<(b.createdOn||''))break;const p=prog(b,ws);if(p.done>=p.need){n++;ws=addDays(ws,-7);}else break;}best=Math.max(best,n);});return best;}
+function all5(){const ws=weekStart(TODAY()),we=addDays(ws,6);return GIDS.every(g=>all('log').some(l=>l.date>=ws&&l.date<=we&&get('habit',l.habitId)&&get('habit',l.habitId).goalId===g)||all('task').some(t=>t.goalId===g&&((t.done&&t.doneAt>=ws&&t.doneAt<=we)||(t.hist||[]).some(z=>z.d>=ws&&z.d<=we)))||all('ms').some(m=>m.goalId===g&&m.done&&m.doneAt>=ws));}
+function numHit(){return all('num').some(n=>{const tg=nTarget(n,curYear()),v=nLast(n),hs=n.hist||[];if(!tg||v==null||hs.length<2)return false;const st=hs.slice().sort((a,b)=>a[0]<b[0]?-1:1)[0][1];return tg.v<st?v<=tg.v:v>=tg.v;});}
+const BADGES=[
+ {id:'b-task1',e:'🌱',n:'Pierwszy krok',d:'Ukończ pierwsze zadanie',p:()=>[completions(),1]},
+ {id:'b-day1',e:'🌿',n:'Pełny dzień',d:'Zrób wszystko, co na dziś',p:()=>[fullStreak()?1:0,1]},
+ {id:'b-ms1',e:'🏔️',n:'Pierwszy punkt kierunku',d:'Odhacz pierwszy punkt kierunku na rok',p:()=>[all('ms').filter(m=>m.done).length,1]},
+ {id:'b-stk',e:'🏅',n:'Pierwsza naklejka',d:'Utrwal pierwszy nawyk w ramach planu',p:()=>[all('habit').filter(b=>hState(b)==='have'&&!b.preexisting).length,1]},
+ {id:'b-all5',e:'✨',n:'Pięć celów',d:'W jednym tygodniu krok w każdym z 5 celów',p:()=>[all5()?1:0,1]},
+ {id:'b-day7',e:'🔥',n:'Tydzień w rytmie',d:'7 pełnych dni z rzędu',p:()=>[Math.min(7,fullStreak()),7]},
+ {id:'b-week4',e:'💫',n:'Stały rytm',d:'Nawyk tygodniowy w normie 4 tygodnie z rzędu',p:()=>[Math.min(4,weekStreakMax()),4]},
+ {id:'b-task25',e:'🎯',n:'Konsekwencja',d:'25 ukończonych zadań',p:()=>[completions(),25]},
+ {id:'b-num',e:'📈',n:'Cel liczbowy',d:'Osiągnij cel na ten rok w jednym trackerze',p:()=>[numHit()?1:0,1]},
+ {id:'b-year',e:'🏆',n:'Rok domknięty',d:'Cały kierunek jednego roku w jednym celu',p:()=>[GIDS.some(g=>ALLY.some(y=>{const l=msOf(g,y);return l.length&&l.every(m=>m.done);}))?1:0,1]}
+];
+let bBusy=false;
+function checkBadges(){if(bBusy)return;bBusy=true;const nw=[];BADGES.forEach(b=>{if(get('badge',b.id))return;let p;try{p=b.p();}catch(e){return;}if(p[0]>=p[1]){put('badge',{id:b.id,at:TODAY()});nw.push(b);}});bBusy=false;
+ if(nw.length)toast(nw[0].e+' Nowa odznaka: '+nw[0].n,true);}
+function badgeStrip(){const got=BADGES.filter(b=>get('badge',b.id)),next=BADGES.find(b=>!get('badge',b.id));let np=[0,1];if(next)try{np=next.p();}catch(e){}
+ return '<div class="card bstrip" data-act="badges"><div><div class="eyebrow">Odznaki · '+got.length+' z '+BADGES.length+'</div><div class="bem">'+(got.length?got.map(b=>b.e).join(' '):'<span class="meta">Jeszcze żadnej. Zacznij od jednego zadania.</span>')+'</div>'+(next?'<div class="meta">Następna: '+next.e+' '+h(next.n)+' ('+Math.min(np[0],np[1])+'/'+np[1]+')</div>':'')+'</div>'+ic('right',18,'#9A8F96')+'</div>';}
+
+// ================= ARKUSZE =================
+function openSheet(html){const s=document.getElementById('sheet'),c=document.getElementById('sheetCard'),st=c.scrollTop;c.innerHTML='<div class="grab"></div>'+html;if(s.classList.contains('hidden')){s.classList.remove('hidden');c.scrollTop=0;setTimeout(()=>s.classList.add('show'),10);}else c.scrollTop=st;}
+function closeSheet(){const s=document.getElementById('sheet');s.classList.remove('show');setTimeout(()=>{s.classList.add('hidden');document.getElementById('sheetCard').innerHTML='';},220);EDIT=null;render(true);}
+function val(id){const e=document.getElementById(id);return e?e.value:'';}
+function goalChips(sel,act){return '<div class="chips wrap">'+GIDS.map(g=>'<button class="chip'+(sel===g?' on':'')+'" data-act="'+act+'" data-g="'+g+'" style="'+(sel===g?'background:'+G[g].c+';border-color:'+G[g].c+';color:#FFFFFF':'border-color:'+G[g].c+';color:'+G[g].d)+'">'+h(GN(g))+'</button>').join('')+'</div>';}
+function chip(on,act,data,label){return '<button class="chip'+(on?' on':'')+'" data-act="'+act+'" '+data+'>'+label+'</button>';}
+function yearSel(id,v){return '<select id="'+id+'" class="inp">'+ALLY.map(y=>'<option value="'+y+'"'+(y===v?' selected':'')+'>Rok '+y+'</option>').join('')+'</select>';}
+function yearsRange(x){return '<label class="fl">W których latach planu</label><div class="yrange">'+yearSel('yFrom',x.fromYear||1)+'<span>do</span>'+yearSel('yTo',x.toYear||10)+'</div>';}
+function readYears(x){const a=+val('yFrom'),b=+val('yTo');if(a){x.fromYear=Math.min(a,b||a);x.toYear=Math.max(a,b||a);}}
+function btns(saveAct,col,canDel,delAct){return '<div class="btnrow sticky"><button class="btn" style="background:'+col+'" data-act="'+saveAct+'">Zapisz</button>'+(canDel?'<button class="btn ghost danger" data-act="'+delAct+'">Usuń</button>':'')+'<button class="btn ghost" data-act="closeSheet">Anuluj</button></div>';}
+
+// --- zadanie
+function sheetTask(){const t=EDIT.t,x=G[t.goalId],td=TODAY(),tm=addDays(td,1),ls=lists(t.goalId);
+ let o='<h3>'+(EDIT.isNew?'Nowe zadanie':'Zadanie')+'</h3><input id="tTitle" class="inp big" placeholder="Co konkretnie zrobisz?" value="'+h(t.title)+'">';
+ o+='<label class="fl">Kiedy</label>';
+ if(t.kind==='repeat'){o+='<div class="chips wrap">'+chip(!t.paused,'tPause','data-v="0"','▶ Aktywne')+chip(!!t.paused,'tPause','data-v="1"','❙❙ Wstrzymane')+'</div>';}
+ if(t.kind==='once'){o+='<div class="chips wrap">'+[['Dziś',td],['Jutro',tm],['Bez daty','']].map(z=>chip(t.date===z[1],'tDate','data-v="'+z[1]+'"',z[0])).join('')+'<input type="date" id="tDateIn" class="inp dt" value="'+h(t.date||'')+'"></div>';
+  o+='<label class="fl">Rok planu</label>'+yearSel('yOne',t.fromYear||curYear());}
+ else{o+='<div class="chips wrap">'+Object.keys(EVERY).map(k=>chip(t.every===k,'tEvery','data-v="'+k+'"',EVERY[k])).join('')+'</div>';
+  if(t.every==='week')o+='<label class="fl">W który dzień</label><div class="chips">'+chip(t.wday==null||t.wday<0,'tWday','data-v="-1"','dowolny')+DN.map((d,i)=>chip(t.wday===i,'tWday','data-v="'+i+'"',d)).join('')+'</div>';
+  else o+='<div class="hint">Pojawi się w sekcji „Do zrobienia w tym okresie”. Weź je na dziś, kiedy masz czas. 2 dni przed końcem okresu samo trafi na listę Dziś.</div>';
+  o+=yearsRange(t);}
+ o+='<label class="fl">Kroki (podzadania)</label><div class="list">'+(t.subtasks||[]).map((s,i)=>'<div class="row sub">'+cb(s.done,x.c,'tSubT','data-i="'+i+'"',1)+'<input class="inp flat" data-sub="'+i+'" value="'+h(s.title)+'"><button class="mini" data-act="tSubDel" data-i="'+i+'" aria-label="Usuń krok">'+ic('x',15)+'</button></div>').join('')+'</div><div class="addrow"><input id="tSubNew" class="inp" placeholder="Dodaj krok…" data-enter="tSubAdd" enterkeyhint="enter"><button class="btn sm ghost" data-act="tSubAdd">Dodaj</button></div>';
+ if(t.kind==='repeat'&&(t.hist||[]).length)o+='<label class="fl">Historia</label><div class="meta">'+t.hist.slice(-8).reverse().map(z=>fmtShort(z.d)+(z.item?': '+h(z.item):'')).join(' · ')+'</div>';
+ {const ws=thisWeek(),nx=addDays(ws,7);o+='<label class="fl">Mój tydzień (max 3 zadania)</label><div class="chips wrap">'+chip(t.week===ws,'tWeek','data-v="'+ws+'"','★ Ten tydzień')+chip(t.week!==ws,'tWeek','data-v=""','Nie')+'</div>';}
+ o+='<label class="fl">Cel</label>'+goalChips(t.goalId,'tGoal');
+ o+=btns('tSave',x.c,!EDIT.isNew,'tDel');openSheet(o);}
+function readTask(){const t=EDIT.t;t.title=val('tTitle').trim();const di=document.getElementById('tDateIn');if(di)t.date=di.value;
+ if(t.kind==='once'){const y=+val('yOne');if(t.date)t.fromYear=t.toYear=yearOf(t.date);else if(y)t.fromYear=t.toYear=y;}else readYears(t);
+ document.querySelectorAll('[data-sub]').forEach(e=>{const i=+e.dataset.sub;if(t.subtasks[i])t.subtasks[i].title=e.value;});const n=val('tSubNew').trim();if(n)t.subtasks.push({id:uid('s'),title:n,done:false});}
+// --- wybór z listy
+function sheetPick(){const x=get('task',EDIT.pid),L=listOf(x),c=G[x.goalId],open=(L.items||[]).filter(i=>!i.done);
+ let o='<h3>'+h(L.name)+'</h3><div class="hint">Wybierz, co zrobisz tym razem: '+h(x.title)+'</div><div class="list">';
+ if(!open.length)o+='<div class="empty">Lista jest pusta. Dopisz coś poniżej.</div>';
+ open.forEach(i=>o+='<div class="row sub pick'+(x.pick===i.id?' on':'')+'" data-act="pickSet" data-v="'+i.id+'" style="'+(x.pick===i.id?'background:'+c.l:'')+'"><span class="radio" style="border-color:'+c.c+(x.pick===i.id?';background:'+c.c:'')+'"></span><div class="rt"><div>'+h(i.text)+'</div>'+(i.note?'<div class="meta">'+h(i.note)+'</div>':'')+'</div></div>');
+ o+='</div><div class="addrow"><input id="pkNew" class="inp" placeholder="Dopisz nową pozycję…" data-enter="pickAdd"><button class="btn sm ghost" data-act="pickAdd">Dodaj</button></div>';
+ o+='<div class="btnrow">'+(open.length>1?'<button class="btn ghost" data-act="pickRandom">'+ic('dice',16)+' Losuj</button>':'')+'<button class="btn ghost" data-act="listOpen" data-id="'+L.id+'">Edytuj listę</button><button class="btn ghost" data-act="closeSheet">Zamknij</button></div>';
+ openSheet(o);}
+// --- lista
+function sheetList(){const L=EDIT.L,x=G[L.goalId],it=L.items||[],open=it.filter(i=>!i.done),dn=it.filter(i=>i.done);
+ let o='<h3>'+(EDIT.isNew?'Nowa lista':'Lista')+'</h3><input id="lName" class="inp big" value="'+h(L.name)+'" placeholder="Nazwa listy, np. Projekty twórcze">';
+ o+='<label class="fl">Do wyboru ('+open.length+(L.target?' · cel: '+L.target+' pozycji, masz '+it.length:'')+')</label><div class="list">'+open.map(i=>{const k=it.indexOf(i);return '<div class="row sub">'+cb(false,x.c,'liDone','data-i="'+k+'"',1)+'<div class="liin"><input class="inp flat" data-li="'+k+'" value="'+h(i.text)+'"><input class="inp flat note" data-ln="'+k+'" value="'+h(i.note||'')+'" placeholder="opis (opcjonalnie)"></div><button class="mini" data-act="liDel" data-i="'+k+'" aria-label="Usuń">'+ic('x',15)+'</button></div>';}).join('')+'</div>';
+ o+='<div class="addrow"><input id="liNew" class="inp" placeholder="Dodaj pozycję…" data-enter="liAdd"><button class="btn sm ghost" data-act="liAdd">Dodaj</button></div>';
+ if(dn.length)o+='<label class="fl">Zrobione ('+dn.length+')</label><div class="list">'+dn.map(i=>{const k=it.indexOf(i);return '<div class="row sub">'+cb(true,x.c,'liDone','data-i="'+k+'"',1)+'<div class="rt done">'+h(i.text)+'</div><span class="when">'+(i.doneAt?fmtShort(i.doneAt):'')+'</span></div>';}).join('')+'</div>';
+ o+='<label class="fl">Cel liczby pozycji (opcjonalnie)</label><input id="lTarget" type="number" class="inp" value="'+h(L.target||'')+'" placeholder="np. 30">';
+ o+='<label class="fl">Cel</label>'+goalChips(L.goalId,'lGoal');
+ o+=btns('lSave',x.c,!EDIT.isNew,'lDel');openSheet(o);}
+function readList(){const L=EDIT.L;L.name=val('lName').trim();L.target=Number(val('lTarget'))||0;document.querySelectorAll('[data-li]').forEach(e=>{const i=+e.dataset.li;if(L.items[i])L.items[i].text=e.value;});document.querySelectorAll('[data-ln]').forEach(e=>{const i=+e.dataset.ln;if(L.items[i])L.items[i].note=e.value;});const n=val('liNew').trim();if(n)L.items.push({id:uid('i'),text:n,note:'',done:false,doneAt:''});}
+// --- kierunek
+function sheetMs(){const m=EDIT.m,x=G[m.goalId];
+ openSheet('<h3>'+(EDIT.isNew?'Nowy punkt kierunku':'Punkt kierunku')+'</h3><textarea id="mText" class="inp big" rows="3" placeholder="Co chcę osiągnąć w tym roku?">'+h(m.text)+'</textarea><label class="fl">Rok</label><div class="chips wrap">'+ALLY.map(y=>chip(m.year===y,'mYear','data-y="'+y+'"','Rok '+y)).join('')+'</div>'+(EDIT.isNew?'':'<button class="linkbtn" data-act="msStep">+ Zrób z tego zadanie</button>')+btns('mSave',x.c,!EDIT.isNew,'mDel'));}
+// --- nawyk
+function sheetHab(){const b=EDIT.b,x=G[b.goalId];
+ let o='<h3>'+(EDIT.isNew?'Nowy nawyk':'Nawyk')+'</h3><input id="bName" class="inp big" value="'+h(b.name)+'" placeholder="Nazwa nawyku"><label class="fl">Jak często</label><div class="chips wrap">'+[['days','W konkretne dni'],['week','X w tygodniu'],['month','X w miesiącu'],['month2','X na 2 miesiące'],['quarter','X na kwartał'],['year','X w roku']].map(z=>chip(b.freq===z[0],'bFreq','data-v="'+z[0]+'"',z[1])).join('')+'</div>';
+ if(b.freq==='days')o+='<label class="fl">Dni (nic nie zaznaczone = codziennie)</label><div class="chips">'+DN.map((d,i)=>chip((b.days||[]).includes(i),'bDay','data-i="'+i+'"',d)).join('')+'</div><div class="hint">Pojawia się na liście Dziś w wybrane dni.</div>';
+ else o+='<label class="fl">Ile razy</label><div class="stepper"><button class="btn sm ghost" data-act="bT" data-v="-1">−</button><b class="bt">'+b.target+'×</b><button class="btn sm ghost" data-act="bT" data-v="1">+</button></div><div class="hint">Pokazuje się jako kafelek w sekcji „Nawyki w tym okresie”, dopóki nie zrobisz go w danym okresie.</div>';
+ o+='<label class="fl">Opis lub kroki (opcjonalnie)</label><textarea id="bNote" class="inp" rows="3" placeholder="np. co sprawdzić, pytania do refleksji">'+h(b.note||'')+'</textarea>';
+ const cs=b._st||hState(b),isR=hType(b)==='ritual';o+='<label class="fl">Status</label><div class="chips wrap">'+(isR?[['on','▶ Włączony'],['later','❙❙ Wyłączony']]:[['have','🏅 Już to mam'],['build','Buduję teraz'],['later','Później']]).map(z=>chip(cs===z[0]||(isR&&z[0]==='on'&&(cs==='build'||cs==='have')),'bState','data-v="'+z[0]+'"',z[1])).join('')+'</div><div class="hint">'+(isR?'To rytuał (co 2 miesiące, kwartał lub rok): bez limitu i bez naklejki. Pojawia się na Dziś, gdy zbliża się koniec okresu.':(hState(b)==='build'&&!EDIT.isNew?'Ten nawyk jest w budowie. Zostaje, aż zdobędzie naklejkę. ':'')+'Budujesz naraz 2 nawyki częste (4+ razy w tygodniu) i 2 rzadsze. Naklejka, gdy robisz nawyk na min. 90%: częste przez 4 tygodnie, rzadsze dłużej (ok. 12 powtórzeń, np. 1× w tygodniu = 12 tygodni).')+'</div>';
+ const rt=b.reward||'money';o+='<label class="fl">Nagroda za naklejkę</label><div class="chips wrap">'+chip(rt==='money','bRew','data-v="money"','💰 '+fmtNum(rewardAmt())+' zł')+chip(rt==='exp','bRew','data-v="exp"','🎁 Przeżycie')+'</div>'+(rt==='exp'?'<input id="bRewText" class="inp" value="'+h(b.rewardText||'')+'" placeholder="np. wspólny wyjazd, kolacja we dwoje">':'')+'<div class="hint">Przy nawykach relacyjnych lepiej sprawdza się przeżycie niż pieniądze.</div>';
+ o+=yearsRange(b)+'<label class="fl">Cel</label>'+goalChips(b.goalId,'bGoal')+btns('bSave',x.c,!EDIT.isNew,'bDel');openSheet(o);}
+function readHab(){const v=val('bName').trim();if(v)EDIT.b.name=v;const rtx=document.getElementById('bRewText');if(rtx)EDIT.b.rewardText=rtx.value;const n=document.getElementById('bNote');if(n)EDIT.b.note=n.value;readYears(EDIT.b);}
+// --- tracker: wpis
+function nRange(n){const vs=(n.hist||[]).map(z=>z[1]).concat(Object.values(n.targets||{}).map(Number)).filter(v=>isFinite(v));if(!vs.length)vs.push(0,100);let lo=Math.min(...vs),hi=Math.max(...vs);const sp=Math.max(hi-lo,Math.abs(hi)*0.1,10);lo=Math.max(0,Math.floor(lo-sp*0.3));hi=Math.ceil(hi+sp*0.3);const step=hi-lo>5000?100:hi-lo>200?1:0.1;return {lo,hi,step};}
+function sheetNum(){const n=EDIT.n,x=G[n.goalId],v=nLast(n),R=nRange(n),tg=nTarget(n,curYear()),cur=v!=null?v:(tg||{v:0}).v;
+ let o='<h3>'+h(n.name)+'</h3><div class="bigval"><input id="nVal" type="number" inputmode="decimal" step="any" value="'+cur+'"><span>'+h(n.unit)+'</span></div><input type="range" id="nRange" min="'+R.lo+'" max="'+R.hi+'" step="'+R.step+'" value="'+cur+'" style="accent-color:'+x.c+'"><div class="stepper">'+[-10,-1,1,10].map(k=>'<button class="btn sm ghost" data-act="nStep" data-v="'+(k*R.step)+'">'+(k>0?'+':'−')+fmtV(Math.abs(k*R.step))+'</button>').join('')+'</div>';
+ if(tg)o+='<div class="meta center">Cel na Rok '+tg.y+': '+fmtV(tg.v)+' '+h(n.unit)+'</div>';
+ o+='<label class="fl">Data</label><input type="date" id="nDate" class="inp" value="'+TODAY()+'">';
+ const hs=(n.hist||[]).map((z,i)=>[z,i]).sort((a,b)=>a[0][0]<b[0][0]?1:-1).slice(0,6);
+ if(hs.length)o+='<label class="fl">Historia</label><div class="list">'+hs.map(z=>'<div class="row sub"><div class="rt">'+fmtShort(z[0][0])+' '+pd(z[0][0]).getFullYear()+'</div><b>'+fmtV(z[0][1])+' '+h(n.unit)+'</b><button class="mini" data-act="nHistDel" data-i="'+z[1]+'" aria-label="Usuń wpis">'+ic('x',15)+'</button></div>').join('')+'</div>';
+ o+='<div class="btnrow sticky"><button class="btn" style="background:'+x.c+'" data-act="nSave">Zapisz wartość</button><button class="btn ghost" data-act="nSettings">Ustawienia i cele</button><button class="btn ghost" data-act="closeSheet">Anuluj</button></div>';openSheet(o);}
+function sheetNumSet(){const n=EDIT.n,x=G[n.goalId];
+ let o='<h3>'+(EDIT.isNew?'Nowy tracker':'Ustawienia trackera')+'</h3><label class="fl">Nazwa</label><input id="nsName" class="inp" value="'+h(n.name)+'" placeholder="np. Waga"><label class="fl">Jednostka</label><input id="nsUnit" class="inp" value="'+h(n.unit)+'" placeholder="np. kg, %, zł"><label class="fl">Sposób wpisu</label><div class="chips">'+chip(!n.counter,'nsCounter','data-v="0"','Wpisuję wartość')+chip(!!n.counter,'nsCounter','data-v="1"','Licznik +1')+'</div>';
+ o+='<label class="fl">Cel na koniec każdego roku (puste = brak)</label><div class="tgrid">'+ALLY.map(y=>'<label>Rok '+y+'<input type="number" inputmode="decimal" step="any" class="inp" data-ty="'+y+'" value="'+h((n.targets||{})[y]!=null?n.targets[y]:'')+'"></label>').join('')+'</div>';
+ o+=btns('nsSave',x.c,!EDIT.isNew,'nsDel');openSheet(o);}
+function readNumSet(){const n=EDIT.n;n.name=val('nsName').trim();n.unit=val('nsUnit').trim();n.targets={};document.querySelectorAll('[data-ty]').forEach(e=>{if(e.value!=='')n.targets[e.dataset.ty]=Number(e.value);});}
+// --- cel
+function sheetGoal(){const gr=EDIT.gr,ci=gr.color!=null?gr.color:Math.max(0,G0.indexOf(gr.id)),p=PAL[ci%PAL.length],x={c:p[0],n:EDIT.isNew?GIDS.length+1:G[gr.id].n};
+ const look='<label class="fl">Kolor</label><div class="chips wrap">'+PAL.map((q,i)=>'<button class="cdot'+(i===ci?' on':'')+'" data-act="gColor" data-v="'+i+'" style="background:'+q[0]+(i===ci?';box-shadow:0 0 0 2px #FFFFFF,0 0 0 4px '+q[0]:'')+'" aria-label="Kolor"></button>').join('')+'</div><label class="fl">Ikona</label><div class="chips wrap">'+ICONS.map(n=>'<button class="idot'+((gr.icon||'star')===n?' on':'')+'" data-act="gIcon" data-v="'+n+'" style="'+((gr.icon||'star')===n?'background:'+p[0]:'')+'">'+ic(n,20,(gr.icon||'star')===n?'#FFFFFF':'#77707A',1.7)+'</button>').join('')+'</div>';
+ openSheet('<h3>'+(EDIT.isNew?'Nowy cel':'Cel '+x.n)+'</h3><label class="fl">Nazwa</label><input id="gName" class="inp big" value="'+h(gr.name)+'"><label class="fl">Zdanie celu</label><textarea id="gSt" class="inp" rows="2">'+h(gr.statement)+'</textarea><label class="fl">Wizja na 50</label><textarea id="gVis" class="inp" rows="4">'+h(gr.vision)+'</textarea><label class="fl">Notatki i zasady</label><textarea id="gNotes" class="inp" rows="'+(EDIT.isNew?3:10)+'">'+h(gr.notes||'')+'</textarea>'+look+btns('gSave',x.c,!EDIT.isNew,'gDel'));}
+function readGoal(){const g=EDIT.gr;g.name=val('gName').trim()||g.name;g.statement=val('gSt');g.vision=val('gVis');g.notes=val('gNotes');}
+function sheetSettings(){const s=SET(),L=LOC();
+ openSheet('<h3>Ustawienia</h3><label class="fl">Start planu (początek Roku 1)</label><input type="date" id="sStart" class="inp" value="'+h(s.startDate)+'"><label class="fl">Mój wiek na starcie</label><input type="number" id="sAge" class="inp" value="'+h(s.startAge)+'">'+
+ '<label class="fl">Nagroda za utrwalony nawyk (zł)</label><input type="number" id="sRew" class="inp" value="'+h(rewardAmt())+'"><div class="btnrow"><button class="btn ghost" data-act="vacOpen">🌴 Tryb urlopowy</button></div>'+
+ '<h3 class="sm">Google Sheets</h3><label class="fl">URL aplikacji Apps Script</label><input id="sUrl" class="inp" value="'+h(L.url||'')+'" placeholder="https://script.google.com/macros/s/…/exec"><label class="fl">Klucz (taki jak w Code.gs)</label><input id="sKey" class="inp" value="'+h(L.key||'')+'">'+
+ '<div class="meta">Status: '+h(syncMsg)+(DB.lastSync?' · ostatnio '+new Date(DB.lastSync).toLocaleString('pl-PL'):'')+'</div><div class="btnrow"><button class="btn" data-act="sSave">Zapisz</button><button class="btn ghost" data-act="sSync">'+ic('sync',16)+' Synchronizuj</button></div>'+
+ '<h3 class="sm">Kopia zapasowa</h3><div class="btnrow"><button class="btn ghost" data-act="exportJson">Eksport</button><label class="btn ghost">Import<input type="file" id="impFile" accept=".json,application/json" hidden data-change="importJson"></label><button class="btn ghost" data-act="closeSheet">Zamknij</button></div>');}
+function sheetBadges(){openSheet('<h3>Odznaki</h3><div class="bgrid">'+BADGES.map(b=>{const r=get('badge',b.id);let p=[0,1];try{p=b.p();}catch(e){}return '<div class="bdg'+(r?' got':'')+'"><div class="be">'+b.e+'</div><b>'+h(b.n)+'</b><small>'+h(b.d)+'</small>'+(r?'<small class="when">'+fmtShort(r.at)+'</small>':bar(p[0]/p[1],'#A07A9A',4)+'<small class="when">'+Math.min(p[0],p[1])+'/'+p[1]+'</small>')+'</div>';}).join('')+'</div><div class="btnrow"><button class="btn ghost" data-act="closeSheet">Zamknij</button></div>');}
+
+// ================= AKCJE =================
+function newTask(o){const y=UI.goal&&UI.y?UI.y:curYear();return Object.assign({id:uid('t'),goalId:firstG(),kind:'once',title:'',date:'',done:false,subtasks:[],listId:'',pick:'',every:'month',wday:-1,fromYear:y,toYear:y,createdAt:Date.now()},o);}
+function focusLater(id,ms){setTimeout(()=>{const e=document.getElementById(id);e&&e.focus();},ms||250);}
+const A={
+ nav:d=>{UI.view=d.v;UI.goal=null;UI.hsetup=false;UI.hpick=false;window.scrollTo(0,0);render(true);},
+ dayNav:d=>{UI.date=d.n==='0'?TODAY():addDays(UI.date,+d.n);render(true);},
+ mode:d=>{UI.mode=d.m;render(true);},
+ openGoal:d=>{UI.view='goals';UI.goal=d.g;UI.y=null;window.scrollTo(0,0);render(true);},
+ openGoalY:d=>{UI.goal=d.g;UI.y=+d.y;window.scrollTo(0,0);render(true);},
+ closeGoal:()=>{UI.goal=null;render(true);},
+ goalY:d=>{UI.y=+d.y;render(true);},
+ badges:()=>sheetBadges(),
+ habToggle:d=>{const id='l-'+d.id+'-'+d.d;if(get('log',id))del('log',id);else put('log',{id,habitId:d.id,date:d.d});render(true);},
+ taskDone:d=>{const x=get('task',d.id);if(listOf(x)&&!x.pick&&(listOf(x).items||[]).some(i=>!i.done)){EDIT={pid:x.id,thenDone:true};sheetPick();toast('Najpierw wybierz pozycję z listy');return;}completeTask(d.id);render(true);},
+ taskResume:d=>{const x=get('task',d.id);x.paused=false;if(!x.next||winEnd(x)<TODAY())x.next=firstNext(x,TODAY());put('task',x);render(true);toast('Włączone: '+x.title);},
+ taskPause:d=>{const x=get('task',d.id);x.paused=true;if(x.week===thisWeek())x.week='';put('task',x);render(true);toast('Wstrzymane');},
+ tPause:d=>{readTask();EDIT.t.paused=d.v==='1';sheetTask();},
+ taskUndo:d=>{undoTask(d.id);render(true);},
+ allPer:()=>{UI.allPer=!UI.allPer;render(true);},
+ planToday:d=>{const x=get('task',d.id);x.planned=TODAY();put('task',x);render(true);},
+ subsT:d=>{UI.open[d.id]=!UI.open[d.id];render(true);},
+ subToggle:d=>{const t=get('task',d.id),s=t.subtasks[+d.i];s.done=!s.done;put('task',t);render(true);},
+ qGoal:d=>{setLOC({qg:d.g});render(true);focusLater('qIn',30);},
+ qAdd:()=>{const v=val('qIn').trim();if(!v)return;const y=yearOf(UI.date);put('task',newTask({goalId:qGoal(),title:v,date:UI.date,fromYear:y,toYear:y}));render(true);focusLater('qIn',30);},
+ stepToday:d=>{const t=get('task',d.id);t.date=TODAY();t.fromYear=t.toYear=curYear();put('task',t);render(true);toast('Dodano na dziś');},
+ stepPlan:d=>{const m=get('ms',d.id);EDIT={isNew:true,t:newTask({goalId:m.goalId,date:TODAY(),fromYear:m.year,toYear:m.year})};sheetTask();focusLater('tTitle');},
+ // zadania
+ taskEdit:d=>{EDIT={t:clone(get('task',d.id))};sheetTask();},
+ taskNew:d=>{EDIT={isNew:true,t:newTask({goalId:(GIDS.includes(d.g)&&d.g)||UI.goal||firstG()})};sheetTask();focusLater('tTitle');},
+ tType:d=>{readTask();if(d.v==='plain')EDIT.t.listId='';else{const ls=lists(EDIT.t.goalId);EDIT.t.listId=ls.length?ls[0].id:'__new';if(!ls.length)return A.tListNew();}sheetTask();},
+ tList:d=>{readTask();EDIT.t.listId=d.v;EDIT.t.pick='';sheetTask();},
+ tListNew:()=>{readTask();const n=prompt('Nazwa nowej listy (np. Projekty twórcze):');if(!n||!n.trim()){if(EDIT.t.listId==='__new')EDIT.t.listId='';return sheetTask();}const L={id:uid('l'),goalId:EDIT.t.goalId,name:n.trim(),target:0,items:[]};put('list',L);EDIT.t.listId=L.id;sheetTask();toast('Lista utworzona. Dodasz pozycje przy wyborze.');},
+ tKind:d=>{readTask();EDIT.t.kind=d.v;if(d.v==='repeat'){if(EDIT.t.fromYear===EDIT.t.toYear){EDIT.t.toYear=10;}}else{EDIT.t.toYear=EDIT.t.fromYear;}sheetTask();},
+ tEvery:d=>{readTask();EDIT.t.every=d.v;sheetTask();},
+ tWday:d=>{readTask();EDIT.t.wday=+d.v;sheetTask();},
+ tDate:d=>{readTask();EDIT.t.date=d.v;if(d.v)EDIT.t.fromYear=EDIT.t.toYear=yearOf(d.v);sheetTask();},
+ tGoal:d=>{readTask();if(EDIT.t.goalId!==d.g){EDIT.t.listId='';EDIT.t.pick='';}EDIT.t.goalId=d.g;sheetTask();},
+ tSubAdd:()=>{readTask();sheetTask();focusLater('tSubNew',40);},
+ tSubT:d=>{readTask();const s=EDIT.t.subtasks[+d.i];s.done=!s.done;sheetTask();},
+ tSubDel:d=>{readTask();EDIT.t.subtasks.splice(+d.i,1);sheetTask();},
+ tSave:()=>{readTask();const t=EDIT.t;if(t.kind==='repeat'&&!t.paused&&t.next&&winEnd(t)<TODAY())t.next=firstNext(t,TODAY());if(!t.title)return toast('Wpisz nazwę zadania');if(t.listId==='__new')t.listId='';t.subtasks=t.subtasks.filter(s=>s.title.trim());
+  if(t.kind==='repeat'){const o=get('task',t.id);if(!t.next||!o||o.every!==t.every||o.wday!==t.wday){let n=firstNext(t,TODAY());if(t.lastDone===TODAY()){while(n<=TODAY())n=advance(t,n);}t.next=n;}const ys=yearStart(t.fromYear);if(t.next<ys)t.next=firstNext(t,ys);}
+  put('task',t);closeSheet();},
+ tDel:()=>{if(confirm('Usunąć zadanie?')){del('task',EDIT.t.id);closeSheet();}},
+ // wybór
+ pickOpen:d=>{EDIT={pid:d.id};sheetPick();},
+ pickSet:d=>{const x=get('task',EDIT.pid);x.pick=d.v;put('task',x);if(EDIT.thenDone){completeTask(x.id);closeSheet();return;}closeSheet();},
+ pickRandom:()=>{const x=get('task',EDIT.pid),open=(listOf(x).items||[]).filter(i=>!i.done&&i.id!==x.pick);if(!open.length)return;x.pick=open[Math.floor(Math.random()*open.length)].id;put('task',x);sheetPick();toast('Wylosowano: '+itemOf(listOf(x),x.pick).text);},
+ pickAdd:()=>{const v=val('pkNew').trim();if(!v)return;const x=get('task',EDIT.pid),L=listOf(x),it={id:uid('i'),text:v,note:'',done:false,doneAt:''};L.items=(L.items||[]).concat([it]);put('list',L);x.pick=it.id;put('task',x);sheetPick();},
+ // listy
+ listOpen:d=>{EDIT={L:clone(get('list',d.id))};sheetList();},
+ listNew:d=>{EDIT={isNew:true,L:{id:uid('l'),goalId:d.g||UI.goal||'g1',name:'',target:0,items:[]}};sheetList();focusLater('lName');},
+ liAdd:()=>{readList();sheetList();focusLater('liNew',40);},
+ liDel:d=>{readList();EDIT.L.items.splice(+d.i,1);sheetList();},
+ liDone:d=>{readList();const i=EDIT.L.items[+d.i];i.done=!i.done;i.doneAt=i.done?TODAY():'';sheetList();},
+ lGoal:d=>{readList();EDIT.L.goalId=d.g;sheetList();},
+ lSave:()=>{readList();if(!EDIT.L.name)return toast('Wpisz nazwę listy');EDIT.L.items=EDIT.L.items.filter(i=>i.text.trim());put('list',EDIT.L);closeSheet();},
+ lDel:()=>{if(confirm('Usunąć listę? Zadania z niej staną się zwykłymi zadaniami.')){all('task').filter(t=>t.listId===EDIT.L.id).forEach(t=>{t.listId='';t.pick='';put('task',t);});del('list',EDIT.L.id);closeSheet();}},
+ // kierunek
+ msToggle:d=>{const m=get('ms',d.id);m.done=!m.done;m.doneAt=m.done?TODAY():'';put('ms',m);render(true);if(m.done)toast('Punkt kierunku zrobiony 🏔️');},
+ msEdit:d=>{EDIT={m:clone(get('ms',d.id))};sheetMs();},
+ msNew:d=>{EDIT={isNew:true,m:{id:uid('ms'),goalId:d.g,year:UI.y||curYear(),text:'',done:false,order:99}};sheetMs();focusLater('mText');},
+ mYear:d=>{EDIT.m.text=val('mText');EDIT.m.year=+d.y;sheetMs();},
+ mSave:()=>{EDIT.m.text=val('mText').trim();if(!EDIT.m.text)return toast('Wpisz treść');put('ms',EDIT.m);closeSheet();},
+ mDel:()=>{if(confirm('Usunąć ten punkt kierunku?')){del('ms',EDIT.m.id);closeSheet();}},
+ msStep:()=>{const m=EDIT.m;EDIT={isNew:true,t:newTask({goalId:m.goalId,title:'',fromYear:m.year,toYear:m.year})};sheetTask();focusLater('tTitle');},
+ // nawyki
+ habEdit:d=>{EDIT={b:clone(get('habit',d.id))};sheetHab();},
+ habNew:d=>{const y=UI.y||curYear();EDIT={isNew:true,b:{id:uid('h'),goalId:(GIDS.includes(d.g)&&d.g)||UI.goal||firstG(),name:'',freq:'week',target:1,days:[],createdOn:TODAY(),fromYear:y,toYear:10}};sheetHab();focusLater('bName');},
+ bRew:d=>{readHab();EDIT.b.reward=d.v;sheetHab();},
+ bFreq:d=>{readHab();EDIT.b.freq=d.v;sheetHab();},
+ bDay:d=>{readHab();const a=EDIT.b.days||[],i=+d.i;EDIT.b.days=a.includes(i)?a.filter(z=>z!==i):a.concat(i).sort();sheetHab();},
+ bT:d=>{readHab();EDIT.b.target=Math.max(1,(Number(EDIT.b.target)||1)+Number(d.v));sheetHab();},
+ bGoal:d=>{readHab();EDIT.b.goalId=d.g;sheetHab();},
+ bSave:()=>{readHab();const b=EDIT.b;if(!b.name)return toast('Wpisz nazwę');if(b._st&&b._st!==hState(b)){if(!setHState(b,b._st))return;}delete b._st;put('habit',b);closeSheet();},
+ bDel:()=>{if(confirm('Usunąć nawyk?')){del('habit',EDIT.b.id);closeSheet();}},
+ // trackery
+ numOpen:d=>{EDIT={n:clone(get('num',d.id))};sheetNum();},
+ numPlus:d=>{const n=get('num',d.id),v=(nLast(n)||0)+1;n.hist=(n.hist||[]).concat([[TODAY(),v]]);put('num',n);render(true);toast(n.name+': '+v);},
+ numNew:d=>{EDIT={isNew:true,n:{id:uid('n'),goalId:d.g,name:'',unit:'',counter:false,targets:{},hist:[],order:99}};sheetNumSet();},
+ nStep:d=>{const e=document.getElementById('nVal'),r=document.getElementById('nRange');e.value=Math.round((Number(e.value)+Number(d.v))*10)/10;r.value=e.value;},
+ nSave:()=>{const v=Number(val('nVal'));if(val('nVal')===''||!isFinite(v))return toast('Wpisz wartość');const n=EDIT.n,dt=val('nDate')||TODAY();n.hist=(n.hist||[]).filter(z=>z[0]!==dt).concat([[dt,v]]);put('num',n);closeSheet();toast('Zapisano');},
+ nHistDel:d=>{const n=EDIT.n;n.hist.splice(+d.i,1);put('num',n);sheetNum();},
+ nSettings:()=>sheetNumSet(),
+ nsCounter:d=>{readNumSet();EDIT.n.counter=d.v==='1';sheetNumSet();},
+ nsSave:()=>{readNumSet();if(!EDIT.n.name)return toast('Wpisz nazwę');if(EDIT.n.counter&&!(EDIT.n.hist||[]).length)EDIT.n.hist=[[TODAY(),0]];put('num',EDIT.n);closeSheet();},
+ nsDel:()=>{if(confirm('Usunąć tracker razem z historią?')){del('num',EDIT.n.id);closeSheet();}},
+ // cel / ustawienia
+ goalEdit:d=>{EDIT={gr:clone(get('goal',d.g))};sheetGoal();},
+ gSave:()=>{readGoal();const g=EDIT.gr;if(!g.name)return toast('Wpisz nazwę celu');const isNew=EDIT.isNew;put('goal',g);syncGoals();closeSheet();if(isNew){UI.view='goals';UI.goal=g.id;UI.y=null;window.scrollTo(0,0);render(true);toast('Cel dodany. Dodaj kierunek, nawyki i zadania.');}},
+ gColor:d=>{readGoal();EDIT.gr.color=+d.v;sheetGoal();},
+ gIcon:d=>{readGoal();EDIT.gr.icon=d.v;sheetGoal();},
+ goalNew:()=>{const mx=Math.max(-1,...Object.values(DB.data.goal).filter(r=>!r.deleted).map(r=>r.order||0));EDIT={isNew:true,gr:{id:uid('g'),order:mx+1,color:GIDS.length%PAL.length,icon:'star',name:'',statement:'',vision:'',notes:''}};sheetGoal();focusLater('gName');},
+ gDel:()=>{const g=EDIT.gr;if(GIDS.length<=1)return toast('Musi zostać przynajmniej jeden cel.');if(!confirm('Usunąć cel „'+g.name+'” razem z jego kierunkiem, nawykami, zadaniami i trackerami? Tego nie da się cofnąć.'))return;['ms','task','habit','num'].forEach(c=>Object.values(DB.data[c]).filter(r=>r.goalId===g.id&&!r.deleted).forEach(r=>del(c,r.id)));del('goal',g.id);syncGoals();UI.goal=null;closeSheet();toast('Cel usunięty');},
+ settings:()=>sheetSettings(),
+ sSave:()=>{const s=clone(SET());s.id='main';s.startDate=val('sStart')||s.startDate;s.startAge=Number(val('sAge'))||40;s.reward=Number(val('sRew'))||500;put('set',s);setLOC({url:val('sUrl').trim(),key:val('sKey').trim()});closeSheet();toast('Zapisano');sync();},
+ sSync:()=>{setLOC({url:val('sUrl').trim(),key:val('sKey').trim()});sync(true);},
+ exportJson:()=>{const b=new Blob([JSON.stringify(DB)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='cele-kopia-'+TODAY()+'.json';a.click();},
+ closeSheet:()=>closeSheet()
+};
+const CH={importJson:e=>{const f=e.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(!j.data)throw 0;if(!confirm('Połączyć dane z kopii z obecnymi?'))return;COLS.forEach(c=>Object.values(j.data[c]||{}).forEach(x=>{const cur=DB.data[c][x.id];if(!cur||cur.updatedAt<x.updatedAt)DB.data[c][x.id]=x;}));persist();syncGoals();DB.lastSync=0;closeSheet();toast('Zaimportowano');scheduleSync();}catch(err){toast('Nieprawidłowy plik');}};r.readAsText(f);}};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el||el.tagName==='INPUT')return;const f=A[el.dataset.act];if(f){e.preventDefault();e.stopPropagation();f(el.dataset,el);}});
+document.addEventListener('keydown',e=>{const el=e.target;if(e.key==='Enter'&&el.dataset&&el.dataset.enter){e.preventDefault();A[el.dataset.enter](el.dataset,el);}});
+document.addEventListener('input',e=>{const el=e.target;if(el.id==='nRange')document.getElementById('nVal').value=el.value;if(el.id==='nVal'){const r=document.getElementById('nRange');if(r)r.value=el.value;}});
+document.addEventListener('change',e=>{const el=e.target;if(el.dataset&&el.dataset.change&&CH[el.dataset.change])CH[el.dataset.change](el);});
+document.querySelector('#sheet .sheet-bg').addEventListener('click',closeSheet);
+let toastT=null;function toast(t,big){const el=document.getElementById('toast');el.textContent=t;el.className='show'+(big?' big':'');clearTimeout(toastT);toastT=setTimeout(()=>el.className='',big?3800:2200);}
+
+// ================= SYNCHRONIZACJA =================
+let syncTimer=null,syncing=false,syncMsg='nie skonfigurowano';
+function setSync(st,msg){syncMsg=msg||{off:'nie skonfigurowano',busy:'synchronizuję…',ok:'zsynchronizowano',err:'błąd'}[st];const d=document.getElementById('syncDot');d.className='sdot '+st;d.title=syncMsg;}
+function scheduleSync(){clearTimeout(syncTimer);syncTimer=setTimeout(sync,2500);}
+async function sync(manual){const L=LOC();if(!L.url){setSync('off');if(manual)toast('Wpisz URL Apps Script');return;}
+ if(syncing){scheduleSync();return;}syncing=true;setSync('busy');const started=Date.now(),recs=[];
+ COLS.forEach(c=>Object.values(DB.data[c]).forEach(r=>{if(!DB.lastSync||(r.updatedAt||0)>DB.lastSync-60000)recs.push({col:c,id:r.id,updatedAt:r.updatedAt||0,deleted:r.deleted?1:0,json:JSON.stringify(r)});}));
+ try{const res=await fetch(L.url,{method:'POST',body:JSON.stringify({key:L.key||'',records:recs})}),j=await res.json();if(!j.ok)throw new Error(j.error||'błąd serwera');
+  let ch=false;(j.records||[]).forEach(x=>{if(!DB.data[x.col])return;const cur=DB.data[x.col][x.id];if(!cur||(cur.updatedAt||0)<Number(x.updatedAt)){try{DB.data[x.col][x.id]=JSON.parse(x.json);ch=true;}catch(e){}}});
+  DB.lastSync=started;persist();syncGoals();setSync('ok');if(manual)toast('Zsynchronizowano');if(ch&&!EDIT)render();
+ }catch(e){setSync('err','błąd: '+e.message);if(manual)toast('Błąd synchronizacji: '+e.message);}
+ syncing=false;}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){if(UI.view==='today'&&UI.date<TODAY())UI.date=TODAY();render();sync();}});
+
+
+// ================= CYKL ŻYCIA NAWYKÓW, NAGRODY, URLOP, TYDZIEŃ =================
+const HST={on:['Rytuał','#E8F0F5','#557489'],build:['Buduję','#F2E9F0','#77566F'],have:['🏅 Utrwalony','#EDF2EA','#5F7A5A'],later:['Później','#F1EDEF','#8A8288']};
+function hState(hb){return hb.state||'later';}
+function activeH(hb){return hState(hb)==='build';}
+function perWeek(hb){if(hb.freq==='days')return (hb.days&&hb.days.length)?hb.days.length:7;return (Number(hb.target)||1)*7/(PDAYS[hb.freq]||7);}
+function hType(hb){if(['month2','quarter','year'].includes(hb.freq))return 'ritual';return perWeek(hb)>=4?'daily':'rare';}
+const TYPEN={daily:'częste',rare:'rzadsze (raz w tygodniu lub rzadziej)'};
+function vacs(){return SET().vac||[];}
+function frozen(d){return vacs().some(v=>d>=v.from&&d<=v.to);}
+function frozenRange(a,b){return vacs().some(v=>v.from<=b&&v.to>=a);}
+function curVac(){const t=TODAY();return vacs().find(v=>t>=v.from&&t<=v.to);}
+const MSPAN={month:1,month2:2,quarter:3};
+function pStart(hb,d){if(hb.freq==='days'||hb.freq==='week')return weekStart(d);if(hb.freq==='year')return yearStart(yearOf(d));const t=pd(d),k=MSPAN[hb.freq]||1;return ds(new Date(t.getFullYear(),Math.floor(t.getMonth()/k)*k,1));}
+function pEnd(hb,s){if(hb.freq==='days'||hb.freq==='week')return addDays(s,6);if(hb.freq==='year')return addDays(addYears(s,1),-1);return addDays(addMonths1(s,MSPAN[hb.freq]||1),-1);}
+function pPrev(hb,s){if(hb.freq==='days'||hb.freq==='week')return addDays(s,-7);if(hb.freq==='year')return addYears(s,-1);return addMonths1(s,-(MSPAN[hb.freq]||1));}
+function pName(hb){return {month:'mies.',month2:'okr. 2-mies.',quarter:'kw.',year:'lat'}[hb.freq]||'tyg.';}
+function pOk(hb,s){const e=pEnd(hb,s);if(hb.freq==='days'){let need=0;for(let i=0;i<7;i++){const d=addDays(s,i);if(frozen(d))continue;if(hb.days&&hb.days.length&&!hb.days.includes(wd(d)))continue;need++;if(!logged(hb.id,d))return false;}return need>0;}return nLogs(hb.id,s,e)>=(Number(hb.target)||1);}
+function buildStreak(hb){const t=TODAY(),cur=pStart(hb,t),start=pStart(hb,hb.stateSince||t);let s=cur,n=0;
+ for(let i=0;i<200&&s>=start;i++,s=pPrev(hb,s)){if(frozenRange(s,pEnd(hb,s)))continue;if(pOk(hb,s))n++;else if(s===cur)continue;else break;}return n;}
+function idleRun(hb){const t=TODAY(),start=pStart(hb,hb.stateSince||t);let s=pPrev(hb,pStart(hb,t)),n=0;
+ for(let i=0;i<200&&s>=start;i++,s=pPrev(hb,s)){if(frozenRange(s,pEnd(hb,s)))continue;if(nLogs(hb.id,s,pEnd(hb,s))===0)n++;else break;}return n;}
+// --- reguły utrwalania: zawsze min. 90%; częste przez 4 tygodnie, rzadsze w dłuższym oknie (ok. 12 powtórzeń)
+function winLen(hb){if(hType(hb)==='daily')return 4;if(hb.freq==='month')return Math.max(3,Math.min(6,Math.ceil(12/(Number(hb.target)||1))));return Math.max(4,Math.ceil(12/Math.max(1,perWeek(hb))));}
+function pNext(hb,s){return pStart(hb,addDays(pEnd(hb,s),1));}
+function perND(hb,s){if(hb.freq==='days'){let n=0,d=0;for(let i=0;i<7;i++){const x=addDays(s,i);if(frozen(x))continue;if(hb.days&&hb.days.length&&!hb.days.includes(wd(x)))continue;n++;if(logged(hb.id,x))d++;}return [n,d];}const n=Number(hb.target)||1;return [n,Math.min(n,nLogs(hb.id,s,pEnd(hb,s)))];}
+function perList(hb){const t=TODAY(),cur=pStart(hb,t),start=pStart(hb,hb.stateSince||t),r=[];for(let s=start,i=0;s<=cur&&i<600;s=pNext(hb,s),i++){if(frozenRange(s,pEnd(hb,s)))continue;if(s===cur){const z=perND(hb,s);if(z[1]<z[0])break;}r.push(s);}return r;}
+function genProg(hb){const W=winLen(hb),ps=perList(hb),last=ps.slice(-W);let n=0,d=0;last.forEach(s=>{const z=perND(hb,s);n+=z[0];d+=z[1];});const rate=n?d/n:0;return {cnt:ps.length,W,rate,ok:ps.length>=W&&n>0&&rate>=0.9};}
+function freqProg(hb){const g=genProg(hb);return {weeks:g.cnt,rate:g.rate,ok:g.ok};}
+function earnedNow(hb){const ty=hType(hb);return (ty==='daily'||ty==='rare')&&genProg(hb).ok;}
+function progFrac(hb){const ty=hType(hb);if(ty==='ritual')return 0;const g=genProg(hb);return Math.min(1,g.cnt/g.W);}
+function unitN(hb){return hb.freq==='month'?'miesiąc':'tydzień';}
+function progText(hb){const ty=hType(hb);if(ty==='ritual')return '';const g=genProg(hb);return g.cnt?unitN(hb)+' '+Math.min(g.W,g.cnt)+'/'+g.W+' · '+pct(g.rate)+' (min. 90%)':'pierwszy '+unitN(hb)+' · cel: '+g.W+' '+(hb.freq==='month'?'mies.':'tyg.')+' na min. 90%';}
+function ritualEnd(hb,d){return pEnd(hb,pStart(hb,d));}
+function rewardAmt(){return Number(SET().reward)||500;}
+function curH(){return all('habit').filter(b=>yrs(b,curYear()));}
+function nBuild(type,ex){return all('habit').filter(b=>hState(b)==='build'&&hType(b)===type&&b.id!==ex).length;}
+function freeSlots(){return {daily:Math.max(0,2-nBuild('daily')),rare:Math.max(0,2-nBuild('rare'))};}
+function candidates(type){return curH().filter(b=>hState(b)==='later'&&hType(b)===type);}
+function setHState(hb,st,force){const ty=hType(hb);if(ty==='ritual'&&(st==='build'||st==='have'))st='on';if(ty!=='ritual'&&st==='on')st='build';
+ if(st==='build'&&hState(hb)!=='build'&&nBuild(ty,hb.id)>=2){toast('Budujesz już 2 nawyki '+(ty==='daily'?'częste':'rzadsze')+'. Nowy wejdzie, gdy któryś zdobędzie naklejkę.');return false;}
+ if(hState(hb)==='build'&&st!=='build'&&!force&&SET().setupDone){if(!confirm('Umówiłaś się z sobą, że ten nawyk zostaje w budowie, aż zdobędzie naklejkę. Przerwać mimo to?'))return false;}
+ hb.state=st;hb.stateSince=TODAY();if(st==='have'){hb.sticker=TODAY();if(!get('reward','r-'+hb.id))hb.preexisting=true;}else hb.sticker='';return true;}
+let lifeBusy=false;
+function lifeCheck(){if(lifeBusy||curVac())return;lifeBusy=true;const msgs=[];
+ all('habit').forEach(hb=>{const st=hState(hb);
+  if(st==='build'&&earnedNow(hb)){hb.state='have';hb.stateSince=TODAY();hb.sticker=TODAY();hb.preexisting=false;put('habit',hb);
+   if(!get('reward','r-'+hb.id)){const ex=hb.reward==='exp';put('reward',{id:'r-'+hb.id,habitId:hb.id,name:hb.name,amount:ex?0:rewardAmt(),kind:ex?'exp':'money',text:ex?(hb.rewardText||'przeżycie do wyboru'):'',at:TODAY(),paid:false});msgs.push('🏅 Nawyk na miejscu: '+hb.name+'! '+(ex?'🎁 '+(hb.rewardText||'Czas na przeżycie'):'+'+fmtNum(rewardAmt())+' zł'));}
+   else msgs.push('🏅 '+hb.name+' znów na miejscu!');}
+});
+ const s0=get('set','main');if(s0&&s0.setupDone&&!s0.lastReview){s0.lastReview=TODAY();put('set',s0);}
+ lifeBusy=false;if(msgs.length)toast(msgs[0],true);}
+function processVac(){const s=get('set','main');if(!s||!s.vac)return;let ch=false;s.vac.forEach(v=>{if(v.to<TODAY()&&!v.done){all('task').filter(x=>x.kind==='repeat'&&x.next&&winEnd(x)<TODAY()).forEach(x=>{x.next=firstNext(x,TODAY());put('task',x);});v.done=1;ch=true;}});if(ch)put('set',s);}
+
+// ---- karty na Dziś ----
+function vacBanner(d){const v=vacs().find(z=>d>=z.from&&d<=z.to);return '<div class="card vac"><div class="vtitle">🌴 Tryb urlopowy</div><p>Do '+fmtShort(v.to)+'. Wszystko jest zamrożone: nawyki, zadania i postęp czekają na Ciebie. Nic się nie psuje.</p>'+(d===TODAY()?'<button class="btn" data-act="vacEnd">Wracam, zakończ urlop</button>':'')+'</div>';}
+function setupCard(){
+ if(!SET().setupDone)return '<div class="card setup"><b>Zacznij od nawyków</b><p>Krok 1: zaznacz nawyki, które już masz w rutynie (dostają naklejkę od razu). Krok 2: wybierz 2 nawyki robione 4 razy w tygodniu lub częściej i, jeśli są, 2 rzadsze.</p><button class="btn" data-act="openSetup">Ustaw nawyki</button></div>';
+ const f=freeSlots(),cd=candidates('daily').length,cr=candidates('rare').length,nd=Math.min(f.daily,cd),nr=Math.min(f.rare,cr);
+ if(!nd&&!nr)return '';
+ return '<div class="card setup"><b>Czas wybrać nowy nawyk</b><p>Masz wolne miejsce: '+[nd?nd+' '+(nd>1?'częste':'częsty'):'',nr?nr+' '+(nr>1?'rzadsze':'rzadszy'):''].filter(Boolean).join(' i ')+'.</p><button class="btn" data-act="pickHabits">Wybierz</button></div>';}
+function reviewDue(){const s=SET();if(!s.setupDone||!s.lastReview)return false;return curH().some(b=>hState(b)==='have')&&daysBetween(s.lastReview,TODAY())>=28;}
+function rr(){if(UI.hsheet&&!document.getElementById('sheet').classList.contains('hidden'))sheetHabFlow();else render(true);}
+function sheetHabFlow(){const s=SET();let o=(!s.setupDone||UI.hsetup)?'':'<h3>Wybierz nawyki</h3>';o+=(!s.setupDone||UI.hsetup)?setupList():pickList();o=o.replace(/ data-act="habEdit"/g,'').replace(/<button class="btn ghost" data-act="habNew"[^]*?<\/button>/g,'');openSheet(o);}
+function rewardsCard(){const rw=all('reward').sort((a,b)=>a.at<b.at?1:-1),earned=rw.reduce((a,r)=>a+r.amount,0),unpaid=rw.filter(r=>!r.paid).reduce((a,r)=>a+r.amount,0);
+ let o='<div class="card wallet"><div class="wtop"><div><div class="eyebrow">Moje nagrody</div><b class="big">'+fmtNum(unpaid)+' zł</b><div class="meta">do wypłacenia sobie · razem '+fmtNum(earned)+' zł</div></div><span class="wicon">💰</span></div>';
+ if(rw.length)o+='<div class="list">'+rw.map(r=>{const ex=r.kind==='exp';return '<div class="row sub"><div class="rt"><div>🏅 '+h(r.name)+'</div><div class="meta">'+fmtShort(r.at)+' · '+(ex?'🎁 '+h(r.text):fmtNum(r.amount)+' zł')+'</div></div><button class="btn sm '+(r.paid?'ghost':'')+'" data-act="rewardPaid" data-id="'+r.id+'">'+(r.paid?(ex?'✓ Zrealizowane':'✓ Wypłacone'):(ex?'Zrealizuj':'Wypłać'))+'</button></div>';}).join('')+'</div>';
+ else o+='<div class="meta">Naklejka, gdy robisz nawyk na min. 90%: częste przez 4 tygodnie, rzadsze dłużej (ok. 12 powtórzeń).</div>';
+ const hv=curH().filter(b=>hState(b)==='have');o+='<div class="btnrow">'+(hv.length?'<button class="btn sm ghost" data-act="reviewOpen">Przegląd utrwalonych ('+hv.length+')</button>':'')+'<button class="btn sm ghost" data-act="pickHabits">Wybór nawyków</button></div>';
+ return o+'</div>';}
+function reviewCard(){if(!reviewDue())return '';return '<div class="card setup"><b>Przegląd utrwalonych nawyków</b><p>Minęły 4 tygodnie. Czy wciąż robisz wszystkie nawyki z naklejką? Jeśli któryś się rozmył, odznacz go i wróci do kolejki.</p><button class="btn" data-act="reviewOpen">Przejrzyj (1 min)</button></div>';}
+function sheetReview(){const hv=curH().filter(b=>hState(b)==='have'),sel=EDIT.rv||{};
+ let o='<h3>Przegląd nawyków 🏅</h3><div class="hint">Przy każdym nawyku: wciąż go robisz czy chcesz nad nim znów popracować?</div><div class="list">'+hv.map(b=>{const back=!!sel[b.id];return '<div class="srow"><div>'+h(b.name)+'<div class="meta"><span class="dot" style="background:'+G[b.goalId].c+'"></span>'+h(GN(b.goalId))+' · '+habDesc(b)+'</div></div><div class="seg3"><button class="'+(!back?'on':'')+'" data-act="rvSet" data-id="'+b.id+'" data-v="0">✓ Wciąż robię</button><button class="'+(back?'on':'')+'" data-act="rvSet" data-id="'+b.id+'" data-v="1">Popracuję znów</button></div></div>';}).join('')+'</div>';
+ o+='<div class="btnrow sticky"><button class="btn" data-act="rvSave">Zapisz przegląd</button><button class="btn ghost" data-act="closeSheet">Później</button></div>';openSheet(o);}
+function thisWeek(){return weekStart(TODAY());}
+function weekPicked(){const ws=thisWeek();return all('task').filter(x=>x.week===ws);}
+function weekCard(d){if(d!==TODAY())return '';const pk=weekPicked(),mon=wd(d)===0,l=pk.filter(x=>!(x.kind==='once'&&x.done)&&!doneToday(x)&&!(x.kind==='once'&&x.date===d)&&!inToday(x,d)),dn=pk.filter(x=>(x.kind==='once'&&x.done)||(x.kind==='repeat'&&(x.hist||[]).some(z=>z.d>=thisWeek()))).length;
+ let o=sech('Mój tydzień · '+pk.length+'/3','Do 3 zadań, na których się skupiasz. Nie musisz ich skończyć.','weekPlan');
+ if(!pk.length)return o+'<div class="card setup"><p>Na czym chcesz się skupić w tym tygodniu? Wybierz do 3 zadań. Nie musisz ich skończyć, to Twój fokus.</p><button class="btn" data-act="weekPlan">Wybierz zadania</button></div>';
+ o+='<div class="card list">';l.forEach(x=>{const c=G[x.goalId];o+='<div class="row">'+cb(false,c.c,'taskDone','data-id="'+x.id+'"')+'<div class="rt" data-act="taskEdit" data-id="'+x.id+'"><div>'+h(x.title)+'</div><div class="meta"><span class="dot" style="background:'+c.c+'"></span>'+h(GN(x.goalId))+((x.subtasks||[]).length?' · '+x.subtasks.filter(s=>s.done).length+'/'+x.subtasks.length+' kroków':'')+'</div></div><button class="btn sm ghost" data-act="weekToday" data-id="'+x.id+'">Na dziś</button></div>';});
+ if(dn)o+='<div class="meta donec">✓ Zrobione w tym tygodniu: '+dn+'</div>';
+ if(!l.length&&!dn)o+='<div class="empty sm">Wybrane zadania są już na liście Dziś.</div>';
+ return o+'</div>';}
+function starBtn(x){const on=x.week===thisWeek();return '<button class="star'+(on?' on':'')+'" data-act="weekTag" data-id="'+x.id+'" aria-label="Na ten tydzień" title="'+(on?'Na ten tydzień':'Wybierz na ten tydzień')+'">'+(on?'★':'☆')+'</button>';}
+function weekCands(){const y=curYear(),t=TODAY(),lw=addDays(thisWeek(),-7);return all('task').filter(x=>yrs(x,y)&&((x.kind==='once'&&!x.done)||(x.kind==='repeat'&&repeatDue(x,t)&&!doneToday(x)))).sort((a,b)=>(b.week===lw)-(a.week===lw));}
+function sheetWeekPlan(){const ws=thisWeek(),n=weekPicked().length,c=weekCands();
+ let o='<h3>Mój tydzień</h3><div class="hint">Wybierz do 3 zadań, na których chcesz się skupić w tym tygodniu ('+fmtShort(ws)+' – '+fmtShort(addDays(ws,6))+'). Wybrane: <b>'+n+'/3</b></div>';
+ GIDS.forEach(g=>{const l=c.filter(x=>x.goalId===g);if(!l.length)return;o+='<label class="fl" style="color:'+G[g].d+'">'+h(GN(g))+'</label><div class="list">'+l.map(x=>{const on=x.week===ws;return '<div class="row sub pick'+(on?' on':'')+'" data-act="weekTagS" data-id="'+x.id+'" style="'+(on?'background:'+G[g].l:'')+'"><span class="star'+(on?' on':'')+'">'+(on?'★':'☆')+'</span><div class="rt"><div>'+h(x.title)+'</div><div class="meta">'+(x.week===addDays(ws,-7)?'<b class="late">z zeszłego tygodnia</b> · ':'')+(x.kind==='repeat'?WIN[x.every]:(x.date?fmtShort(x.date):'bez daty'))+((x.subtasks||[]).length?' · '+x.subtasks.length+' kroków':'')+'</div></div></div>';}).join('')+'</div>';});
+ if(!c.length)o+='<div class="empty">Brak otwartych zadań. Dodaj je w planie celu.</div>';
+ o+='<div class="btnrow sticky"><button class="btn" data-act="closeSheet">Gotowe</button></div>';openSheet(o);}
+
+// ---- zakładka Nawyki ----
+function streakDots(n,col){let o='<span class="sdots">';for(let i=0;i<4;i++)o+='<i style="'+(i<n?'background:'+col+';border-color:'+col:'')+'"></i>';return o+'</span>';}
+function buildRow(b){const c=G[b.goalId];return '<div class="row"><div class="rt" data-act="habEdit" data-id="'+b.id+'"><div>'+h(b.name)+'</div><div class="meta"><span class="dot" style="background:'+c.c+'"></span>'+h(GN(b.goalId))+' · '+habDesc(b)+'</div>'+bar(progFrac(b),c.c,6)+'<div class="streak"><span>'+progText(b)+'</span></div></div></div>';}
+function ritualRow(b){const c=G[b.goalId],t=TODAY(),on=hState(b)==='on',p=prog(b,t),dn=p.done>=p.need,lg=logged(b.id,t);
+ return '<div class="row"><div class="rt" data-act="habEdit" data-id="'+b.id+'"><div>'+h(b.name)+'</div><div class="meta"><span class="dot" style="background:'+c.c+'"></span>'+h(GN(b.goalId))+' · '+habDesc(b)+(on?(dn?' · <b style="color:#5F7A5A">✓ zrobione w tym okresie</b>':' · do '+fmtShort(ritualEnd(b,t))):'')+'</div></div>'+(on?((!dn||lg)?'<button class="btn sm'+(lg?'':' ghost')+'" data-act="habToggle" data-id="'+b.id+'" data-d="'+t+'">'+(lg?'✓ Dziś':'Zrobione')+'</button>':'')+'<button class="mini" data-act="rOff" data-id="'+b.id+'" title="Wyłącz" aria-label="Wyłącz">❙❙</button>':'<button class="btn sm ghost" data-act="rOn" data-id="'+b.id+'">Włącz</button>')+'</div>';}
+function vHabits(){const s=SET(),amt=rewardAmt(),rw=all('reward').sort((a,b)=>a.at<b.at?1:-1),earned=rw.reduce((a,r)=>a+r.amount,0),unpaid=rw.filter(r=>!r.paid).reduce((a,r)=>a+r.amount,0);
+ let o='<div class="hero"><div class="eyebrow">Moje nawyki</div><h1>Krok po kroku</h1><div class="sub">Min. 90%: częste przez 4 tygodnie, rzadsze dłużej (ok. 12 powtórzeń). Potem naklejka 🏅 i nagroda.</div></div>';
+ if(curVac())o+=vacBanner(TODAY());
+ o+='<div class="card wallet"><div class="wtop"><div><div class="eyebrow">Moje nagrody</div><b class="big">'+fmtNum(unpaid)+' zł</b><div class="meta">do wypłacenia sobie · razem zdobyte '+fmtNum(earned)+' zł</div></div><span class="wicon">💰</span></div>';
+ if(rw.length)o+='<div class="list">'+rw.map(r=>{const ex=r.kind==='exp';return '<div class="row sub"><div class="rt"><div>🏅 '+h(r.name)+'</div><div class="meta">'+fmtShort(r.at)+' · '+(ex?'🎁 '+h(r.text):fmtNum(r.amount)+' zł')+'</div></div><button class="btn sm '+(r.paid?'ghost':'')+'" data-act="rewardPaid" data-id="'+r.id+'">'+(r.paid?(ex?'✓ Zrealizowane':'✓ Wypłacone'):(ex?'Zrealizuj':'Wypłać'))+'</button></div>';}).join('')+'</div>';
+ else o+='<div class="meta">Pierwsza nagroda po utrwaleniu pierwszego nawyku.</div>';
+ o+='</div>';
+ if(!s.setupDone||UI.hsetup)return o+setupList();
+ if(UI.hpick)return o+pickList();
+ const hs=curH(),hv=hs.filter(b=>hState(b)==='have'),lt=hs.filter(b=>hState(b)==='later'&&hType(b)!=='ritual'),rt=hs.filter(b=>hType(b)==='ritual').sort((a,b)=>(hState(a)==='on'?0:1)-(hState(b)==='on'?0:1)),f=freeSlots();
+ ['daily','rare'].forEach(ty=>{const bl=hs.filter(b=>hState(b)==='build'&&hType(b)===ty);
+  o+=sech('Buduję: '+(ty==='daily'?'częste':'rzadsze')+' · '+bl.length+'/2',ty==='daily'?'4+ razy w tygodniu. Naklejka po 4 tygodniach na min. 90%.':'1–3 razy w tygodniu albo w miesiącu. Naklejka po ok. 12 powtórzeniach na min. 90%.')+'<div class="card list">';
+  bl.forEach(b=>o+=buildRow(b));
+  if(bl.length<2)o+='<div class="row"><div class="rt meta">'+(candidates(ty).length?'Wolne miejsce.':'Brak nawyków do wybrania. Dodaj nowy.')+'</div>'+(candidates(ty).length?'<button class="btn sm" data-act="pickHabits">Wybierz</button>':'')+'</div>';
+  o+='</div>';});
+ o+=sech('Rytuały','Rzadkie rzeczy (co 2 miesiące, kwartał, rok). Bez limitu i bez naklejki. Pojawiają się na Dziś, gdy zbliża się koniec okresu.')+'<div class="card list">'+(rt.length?rt.map(ritualRow).join(''):'<div class="empty">Brak rytuałów.</div>')+'</div>';
+ o+=sech('Utrwalone 🏅','Są już w Twojej rutynie, więc nie ma ich na liście Dziś. Co 4 tygodnie poproszę Cię o krótki przegląd.')+'<div class="card list">';
+ if(!hv.length)o+='<div class="empty">Jeszcze żadnego.</div>';
+ hv.forEach(b=>{const idle=0;o+='<div class="row"><span class="stk">🏅</span><div class="rt" data-act="habEdit" data-id="'+b.id+'"><div>'+h(b.name)+'</div><div class="meta">'+h(GN(b.goalId))+' · '+habDesc(b)+(b.preexisting?' · miałam przed planem':(b.sticker?' · od '+fmtShort(b.sticker):''))+(idle>=2?' · <b class="late">'+idle+' '+pName(b)+' bez śladu</b>':'')+'</div></div><button class="btn sm ghost" data-act="hLater" data-id="'+b.id+'">Odznacz</button></div>';});
+ if(hv.length)o+='<button class="linkbtn" data-act="reviewOpen">Przejrzyj teraz</button>';
+ o+='</div>';
+ o+=sech('Czekają na swoją kolej',lt.length+' nawyków','habNew','data-g="g1"')+'<div class="card list">';
+ if(!lt.length)o+='<div class="empty">Pusto.</div>';
+ lt.forEach(b=>{const c=G[b.goalId];o+='<div class="row" data-act="habEdit" data-id="'+b.id+'"><div class="rt"><div>'+h(b.name)+'</div><div class="meta"><span class="dot" style="background:'+c.c+'"></span>'+h(GN(b.goalId))+' · '+habDesc(b)+'</div></div><span class="pill">'+(hType(b)==='daily'?'częsty':'rzadszy')+'</span></div>';});
+ o+='</div><div class="btnrow"><button class="btn ghost" data-act="openSetup">Ustaw od nowa</button><button class="btn ghost" data-act="vacOpen">🌴 Urlop</button></div>';
+ return o;}
+function pickList(){const f=freeSlots();let o='';
+ ['daily','rare'].forEach(ty=>{const cs=candidates(ty),bl=curH().filter(b=>hState(b)==='build'&&hType(b)===ty);if(!cs.length&&!bl.length)return;
+  if(UI.hsetup&&bl.length)o+=sech('Wybrane '+(ty==='daily'?'częste':'rzadsze')+' · '+bl.length+'/2','')+'<div class="card list">'+bl.map(b=>'<div class="row"><div class="rt"><div>'+h(b.name)+'</div><div class="meta"><span class="dot" style="background:'+G[b.goalId].c+'"></span>'+h(GN(b.goalId))+' · '+habDesc(b)+'</div></div><button class="btn sm ghost" data-act="sUndo" data-id="'+b.id+'">Cofnij</button></div>').join('')+'</div>';
+  if(!cs.length)return;
+  o+=sech('Wybierz '+(ty==='daily'?'częste':'rzadsze')+' · wolne: '+f[ty],ty==='daily'?'Nawyki robione 4 razy w tygodniu lub częściej.':'Nawyki robione rzadziej niż 4 razy w tygodniu.')+'<div class="card list">';
+  cs.forEach(b=>{const c=G[b.goalId];o+='<div class="row"><div class="rt" data-act="habEdit" data-id="'+b.id+'"><div>'+h(b.name)+'</div><div class="meta"><span class="dot" style="background:'+c.c+'"></span>'+h(GN(b.goalId))+' · '+habDesc(b)+'</div></div><button class="btn sm'+(f[ty]?'':' ghost dis')+'" data-act="hBuild" data-id="'+b.id+'">Buduję</button></div>';});
+  o+='</div>';});
+ const rts=curH().filter(b=>hType(b)==='ritual');if(rts.length)o+=sech('Rytuały (opcjonalnie)','Bez limitu i bez naklejki. Włącz te, które chcesz mieć w kalendarzu.')+'<div class="card list">'+rts.map(ritualRow).join('')+'</div>';
+ return o+'<div class="btnrow"><button class="btn" data-act="pickDone">Gotowe</button><button class="btn ghost" data-act="habNew" data-g="g1">'+ic('plus',16)+' Nowy nawyk</button></div>';}
+function setupList(){const step=UI.sstep||1;
+ if(step===1){let o=sech('Krok 1 z 2: co już masz?','Zaznacz nawyki, które już są w Twojej rutynie. Dostają naklejkę 🏅 od razu.');
+  GIDS.forEach(g=>{const hs=curH().filter(b=>b.goalId===g&&hType(b)!=='ritual');if(!hs.length)return;o+='<div class="card list"><div class="sgh">'+gb(g,24)+' <b>'+h(GN(g))+'</b></div>';
+   hs.forEach(b=>{const on=hState(b)==='have';o+='<div class="row" data-act="sHave" data-id="'+b.id+'">'+cb(on,G[g].c,'sHave','data-id="'+b.id+'"')+'<div class="rt"><div>'+h(b.name)+'</div><div class="meta">'+habDesc(b)+'</div></div></div>';});o+='</div>';});
+  return o+'<div class="btnrow"><button class="btn" data-act="sNext">Dalej</button><button class="btn ghost" data-act="habNew" data-g="g1">'+ic('plus',16)+' Dodaj nawyk</button></div>';}
+ if(step===3){const rs=all('task').filter(x=>x.kind==='repeat'&&yrs(x,curYear())),on=rs.filter(x=>!x.paused).length;let o=sech('Krok 3 z 3: zadania cykliczne','Domyślnie wszystkie są wstrzymane. Włącz te, które chcesz mieć w rytmie. Zacznij od 2–3. Resztę włączysz później w planie celu.')+'<div class="meta pad">Włączone: <b>'+on+'</b></div>';
+  GIDS.forEach(g=>{const l=rs.filter(x=>x.goalId===g);if(!l.length)return;o+='<div class="card list"><div class="sgh">'+gb(g,24)+' <b>'+h(GN(g))+'</b></div>'+l.map(x=>'<div class="row" data-act="sTask" data-id="'+x.id+'">'+cb(!x.paused,G[g].c,'sTask','data-id="'+x.id+'"')+'<div class="rt"><div>'+h(x.title)+'</div><div class="meta">'+cadence(x)+((x.subtasks||[]).length?' · '+x.subtasks.length+' kroków':'')+'</div></div></div>').join('')+'</div>';});
+  return o+'<div class="btnrow"><button class="btn" data-act="setupDone">Gotowe</button></div>';}
+ return sech('Krok 2 z 2: co budujesz?','Wybierz 2 nawyki robione 4 razy w tygodniu lub częściej i, jeśli są, 2 rzadsze. Naklejka, gdy robisz nawyk na min. 90%: częste przez 4 tygodnie, rzadsze dłużej (ok. 12 powtórzeń). Reszta czeka na swoją kolej.')+pickList().replace('data-act="pickDone">Gotowe','data-act="setupDone">Gotowe');}
+
+// ---- urlop ----
+function sheetVac(){const v=vacs().slice().sort((a,b)=>a.from<b.from?1:-1);
+ let o='<h3>🌴 Tryb urlopowy</h3><div class="hint">Na czas urlopu aplikacja się zamraża: nawyki i zadania znikają z listy Dziś, a te tygodnie nie liczą się do naklejek ani ich utraty. Zadania cykliczne, których okres minął, po powrocie zaczynają się od nowa.</div><label class="fl">Od</label><input type="date" id="vFrom" class="inp" value="'+TODAY()+'"><label class="fl">Do</label><input type="date" id="vTo" class="inp" value="'+addDays(TODAY(),7)+'">';
+ if(v.length)o+='<label class="fl">Urlopy</label><div class="list">'+v.map(z=>'<div class="row sub"><div class="rt">'+fmtShort(z.from)+' – '+fmtShort(z.to)+' '+pd(z.to).getFullYear()+'</div><button class="mini" data-act="vacDel" data-from="'+z.from+'" aria-label="Usuń">'+ic('x',15)+'</button></div>').join('')+'</div>';
+ o+='<div class="btnrow"><button class="btn" style="background:#7E9FB5" data-act="vacSave">Włącz urlop</button><button class="btn ghost" data-act="closeSheet">Anuluj</button></div>';openSheet(o);}
+
+function toggleWeek(id){const x=get('task',id),ws=thisWeek();if(x.week===ws){x.week='';}else{if(weekPicked().length>=3){toast('Masz już 3 zadania na ten tydzień. Najpierw odznacz jedno.');return false;}x.week=ws;}put('task',x);return true;}
+Object.assign(A,{
+ openSetup:()=>{UI.hsetup=true;UI.sstep=1;UI.hsheet=true;sheetHabFlow();},
+ sHave:d=>{const b=get('habit',d.id);setHState(b,hState(b)==='have'?'later':'have',true);put('habit',b);rr();},
+ sUndo:d=>{const b=get('habit',d.id);setHState(b,'later',true);put('habit',b);rr();},
+ sNext3:()=>{UI.sstep=3;window.scrollTo(0,0);render(true);},
+ sTask:d=>{const x=get('task',d.id);x.paused=!x.paused;if(!x.paused&&(!x.next||winEnd(x)<TODAY()))x.next=firstNext(x,TODAY());put('task',x);render(true);},
+ sNext:()=>{UI.sstep=2;document.getElementById('sheetCard').scrollTop=0;rr();},
+ setupDone:()=>{const s=get('set','main');s.setupDone=true;s.lastReview=TODAY();put('set',s);UI.hsetup=false;UI.sstep=1;UI.hsheet=false;closeSheet();toast('Gotowe. Powodzenia!');},
+ pickHabits:()=>{UI.hsetup=false;UI.hsheet=true;sheetHabFlow();},
+ pickDone:()=>{UI.hsheet=false;closeSheet();},
+ hBuild:d=>{const b=get('habit',d.id);if(setHState(b,'build')){put('habit',b);toast('Budujesz: '+b.name);}rr();},
+ hLater:d=>{const b=get('habit',d.id);if(!confirm('Odznaczyć „'+b.name+'”? Naklejka zniknie, a nawyk wróci do kolejki.'))return;setHState(b,'later',true);put('habit',b);render(true);},
+ rewardPaid:d=>{const r=get('reward',d.id);r.paid=!r.paid;put('reward',r);render(true);if(r.paid)toast('Ciesz się nagrodą! 💰');},
+ weekTag:d=>{if(toggleWeek(d.id)){render(true);toast(get('task',d.id).week?'Na ten tydzień ★':'Usunięto z tygodnia');}},
+ weekTagS:d=>{toggleWeek(d.id);sheetWeekPlan();},
+ weekPlan:()=>sheetWeekPlan(),
+ weekToday:d=>{const x=get('task',d.id);if(x.kind==='once'){x.date=TODAY();x.fromYear=x.toYear=curYear();}else x.planned=TODAY();put('task',x);render(true);},
+ tWeek:d=>{readTask();const ws=thisWeek();if(d.v===ws&&EDIT.t.week!==ws&&weekPicked().filter(x=>x.id!==EDIT.t.id).length>=3)return toast('Masz już 3 zadania na ten tydzień.');EDIT.t.week=d.v;sheetTask();},
+ bState:d=>{readHab();const b=EDIT.b;if(d.v==='build'&&hState(b)!=='build'&&nBuild(hType(b),b.id)>=2)return toast('Masz już 2 nawyki '+(hType(b)==='daily'?'częste':'rzadsze')+' w budowie.');b._st=d.v;sheetHab();},
+ reviewOpen:()=>{EDIT={rv:{}};sheetReview();},
+ rvSet:d=>{EDIT.rv[d.id]=d.v==='1';sheetReview();},
+ rvSave:()=>{const rv=EDIT.rv||{};let n=0;Object.keys(rv).forEach(id=>{if(rv[id]){const b=get('habit',id);setHState(b,'later',true);put('habit',b);n++;}});const s=get('set','main');s.lastReview=TODAY();put('set',s);closeSheet();toast(n?'Odznaczone: '+n+'. Wrócą do kolejki.':'Super, wszystkie wciąż w rutynie 🏅');},
+ rOn:d=>{const b=get('habit',d.id);b.state='on';b.stateSince=TODAY();put('habit',b);rr();toast('Rytuał włączony');},
+ rOff:d=>{const b=get('habit',d.id);b.state='later';put('habit',b);rr();},
+ vacOpen:()=>sheetVac(),
+ vacSave:()=>{const f=val('vFrom'),t=val('vTo');if(!f||!t||t<f)return toast('Sprawdź daty');const s=get('set','main');s.vac=(s.vac||[]).concat([{from:f,to:t}]);put('set',s);closeSheet();toast('Miłego urlopu 🌴');},
+ vacEnd:()=>{const s=get('set','main'),t=TODAY();s.vac=(s.vac||[]).map(v=>{if(t>=v.from&&t<=v.to){v.to=addDays(t,-1);}return v;}).filter(v=>v.to>=v.from);put('set',s);processVac();render(true);toast('Witaj z powrotem!');},
+ vacDel:d=>{const s=get('set','main');s.vac=(s.vac||[]).filter(v=>v.from!==d.from);put('set',s);sheetVac();}
+});
+
+seed();syncGoals();processVac();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+setSync(LOC().url?'ok':'off');render(true);sync();
+
+</script>
+</body>
+</html>
