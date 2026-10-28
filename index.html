@@ -380,7 +380,8 @@ const KEY='cele10_v2', LKEY='cele10_local';
 const COLS=['goal','ms','task','habit','log','num','list','badge','set','reward'];
 let DB=(function(){try{const j=JSON.parse(localStorage.getItem(KEY));if(j&&j.data)return j;}catch(e){}return {data:{},lastSync:0};})();
 COLS.forEach(c=>{if(!DB.data[c])DB.data[c]={};});
-function LOC(){try{return JSON.parse(localStorage.getItem(LKEY))||{};}catch(e){return {};}}
+const DEF_URL='https://script.google.com/macros/s/AKfycbz6Y7sWLMuEpyFkfegBer438IpnL_JxsY2l6nGHQ-5tQ-VWeCokpmDSBxhQklRIHiHa/exec';
+function LOC(){let o={};try{o=JSON.parse(localStorage.getItem(LKEY))||{};}catch(e){}if(!o.url)o.url=DEF_URL;return o;}
 function setLOC(o){try{localStorage.setItem(LKEY,JSON.stringify(Object.assign(LOC(),o)));}catch(e){}}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){}}
 const GSC={ms:1,task:1,habit:1,num:1};
@@ -649,7 +650,7 @@ function vToday(){const d=UI.date,t=TODAY(),isT=d===t,items=dayItems(d),open=ite
  let o='<div class="dayhead"><button class="iconbtn" data-act="dayNav" data-n="-1" aria-label="Poprzedni dzień">'+ic('left',20)+'</button><div class="dh-mid"><div class="eyebrow">'+(isT?'Dziś':(d<t?'Wcześniej':'Plan'))+' · Rok '+yearOf(d)+'</div><h2>'+fmtDay(d)+'</h2></div><button class="iconbtn" data-act="dayNav" data-n="1" aria-label="Następny dzień">'+ic('right',20)+'</button></div>';
  if(!isT)o+='<button class="linkbtn center" data-act="dayNav" data-n="0">Wróć do dziś</button>';
  if(frozen(d))return o+vacBanner(d);
- if(isT)o+=setupCard();
+ if(isT)o+=setupCard()+(LOC().key?'':'<div class="card setup"><b>Połącz z Google Sheets</b><p>Adres skryptu jest już wpisany. Podaj tylko hasło (KEY z Code.gs), żeby dane synchronizowały się między urządzeniami.</p><div class="addrow"><input id="keyIn" type="password" placeholder="Hasło" data-enter="keySave"><button class="btn sm" data-act="keySave">Połącz</button></div></div>');
  if(items.length)o+='<div class="daysum">'+ring(done.length/items.length,'#A07A9A',34,'')+'<span>'+(open.length?'Zostało <b>'+open.length+'</b> z '+items.length:'<b>Dzień zrobiony.</b> Brawo! 🌿')+'</span></div>';
  o+='<div class="card list">';
  if(!items.length)o+='<div class="empty">Nic zaplanowanego na ten dzień.</div>';
@@ -955,6 +956,7 @@ const A={
  goalNew:()=>{const mx=Math.max(-1,...Object.values(DB.data.goal).filter(r=>!r.deleted).map(r=>r.order||0));EDIT={isNew:true,gr:{id:uid('g'),order:mx+1,color:GIDS.length%PAL.length,icon:'star',name:'',statement:'',vision:'',notes:''}};sheetGoal();focusLater('gName');},
  gDel:()=>{const g=EDIT.gr;if(GIDS.length<=1)return toast('Musi zostać przynajmniej jeden cel.');if(!confirm('Usunąć cel „'+g.name+'” razem z jego kierunkiem, nawykami, zadaniami i trackerami? Tego nie da się cofnąć.'))return;['ms','task','habit','num'].forEach(c=>Object.values(DB.data[c]).filter(r=>r.goalId===g.id&&!r.deleted).forEach(r=>del(c,r.id)));del('goal',g.id);syncGoals();UI.goal=null;closeSheet();toast('Cel usunięty');},
  settings:()=>sheetSettings(),
+ keySave:()=>{const k=val('keyIn').trim();if(!k)return toast('Wpisz hasło');setLOC({key:k});DB.lastSync=0;render(true);sync(true);},
  sSave:()=>{const s=clone(SET());s.id='main';s.startDate=val('sStart')||s.startDate;s.startAge=Number(val('sAge'))||40;s.reward=Number(val('sRew'))||500;put('set',s);setLOC({url:val('sUrl').trim(),key:val('sKey').trim()});closeSheet();toast('Zapisano');sync();},
  sSync:()=>{setLOC({url:val('sUrl').trim(),key:val('sKey').trim()});sync(true);},
  exportJson:()=>{const b=new Blob([JSON.stringify(DB)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='cele-kopia-'+TODAY()+'.json';a.click();},
@@ -972,7 +974,7 @@ let toastT=null;function toast(t,big){const el=document.getElementById('toast');
 let syncTimer=null,syncing=false,syncMsg='nie skonfigurowano';
 function setSync(st,msg){syncMsg=msg||{off:'nie skonfigurowano',busy:'synchronizuję…',ok:'zsynchronizowano',err:'błąd'}[st];const d=document.getElementById('syncDot');d.className='sdot '+st;d.title=syncMsg;}
 function scheduleSync(){clearTimeout(syncTimer);syncTimer=setTimeout(sync,2500);}
-async function sync(manual){const L=LOC();if(!L.url){setSync('off');if(manual)toast('Wpisz URL Apps Script');return;}
+async function sync(manual){const L=LOC();if(!L.url){setSync('off');if(manual)toast('Wpisz URL Apps Script');return;}if(!L.key){setSync('off','wpisz hasło w ustawieniach');if(manual)toast('Wpisz hasło z Code.gs');return;}
  if(syncing){scheduleSync();return;}syncing=true;setSync('busy');const started=Date.now(),recs=[];
  COLS.forEach(c=>Object.values(DB.data[c]).forEach(r=>{if(!DB.lastSync||(r.updatedAt||0)>DB.lastSync-60000)recs.push({col:c,id:r.id,updatedAt:r.updatedAt||0,deleted:r.deleted?1:0,json:JSON.stringify(r)});}));
  try{const res=await fetch(L.url,{method:'POST',body:JSON.stringify({key:L.key||'',records:recs})}),j=await res.json();if(!j.ok)throw new Error(j.error||'błąd serwera');
@@ -1162,7 +1164,7 @@ Object.assign(A,{
 
 seed();syncGoals();processVac();
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-setSync(LOC().url?'ok':'off');render(true);sync();
+setSync(LOC().key?'ok':'off');render(true);sync();
 
 </script>
 </body>

@@ -1,4 +1,4 @@
-const C = 'cele10-v16';
+const C = 'cele10-v17';
 const FILES = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './favicon.svg', './favicon-32.png', './apple-touch-icon.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener('activate', e => {
